@@ -1,7 +1,7 @@
-#include "iolist.h"
+#include "headers/iolist.h"
 
 InputList::InputList(QPointer<QObject> parent)
-    : m_component{}
+    //: m_component{}
 {
 }
 
@@ -27,13 +27,13 @@ void InputList::removeInput(QObject &input)
 
 QObject &OutputList::createOutput()
 {
-    QObject* object = m_component.create();
+    /*QObject* object = m_component.create();
     object->setParent(this);
 
 
     QQmlEngine::setObjectOwnership(object, QQmlEngine::CppOwnership);
     m_outputs.append(object);
-    return *object;
+    return *object;*/
 }
 
 void OutputList::removeOutput(QObject &output)

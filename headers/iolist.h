@@ -6,8 +6,6 @@
 #include <QQmlProperty>
 #include <QQmlEngine>
 
-#include "./slot.h"
-
 class InputList : public QObject
 {
     Q_OBJECT
@@ -21,7 +19,7 @@ public:
 
 private:
     //QList<QPointer<QObject>> m_inputs;
-    QQmlComponent m_component;
+    //QQmlComponent m_component;
 };
 
 class OutputList : public QObject
@@ -36,7 +34,7 @@ public:
 private:
     QList<QPointer<QObject>> m_outputs;
     QQmlEngine* m_engine;
-    QQmlComponent m_component;
+    //QQmlComponent m_component;
 };
 
 #endif // IOLIST_H

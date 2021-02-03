@@ -4,17 +4,21 @@ import QtQuick.Shapes 1.15
 
 Shape {
     id: circle
-    width: 5
-    height: 5
+    width: parent.width
+    height: parent.width
     x: posX-width/2
     y: posY-height/2
+
     property real r: 3
     property real posX
     property real posY
+    property color fillColor: "blue"
+    property color strokeColor: "transparent"
 
     ShapePath {
-        strokeColor: "transparent"
-        fillColor: "blue"
+        id: half1
+        strokeColor: circle.strokeColor
+        fillColor: circle.fillColor
 
         startX: circle.width / 2 + circle.r
         startY: circle.height / 2 + circle.r
@@ -27,8 +31,9 @@ Shape {
     }
 
     ShapePath {
-        strokeColor: "transparent"
-        fillColor: "blue"
+        id: half2
+        strokeColor: circle.strokeColor
+        fillColor: circle.fillColor
 
         startX: circle.width / 2 - circle.r
         startY: circle.height / 2 - circle.r

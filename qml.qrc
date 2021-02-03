@@ -1,3 +1,11 @@
 <RCC>
-    <qresource prefix="/"/>
+    <qresource prefix="/">
+        <file>qml/nodes/nodeio/ConnectionPath.qml</file>
+        <file>qml/nodes/nodeio/Slot.qml</file>
+        <file>qml/nodes/BasicNode.qml</file>
+        <file>qml/nodes/Circle.qml</file>
+        <file>qml/main.qml</file>
+        <file>qml/nodes/intermediary/AndGate.qml</file>
+        <file>qml/nodes/intermediary/BasicGate.qml</file>
+    </qresource>
 </RCC>

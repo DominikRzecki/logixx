@@ -1,31 +1,28 @@
 import QtQuick 2.15
 import QtGraphicalEffects 1.0
 import com.rzecki.logix 1.0
+import "nodeio"
 
 Item {
     id: basicnode
     width: 100
     height: 100
+    color: "white"
+
+    property alias color: rectangle.color
+    property alias backend: backend
 
     NodeBackend {
         id: backend
-        anchors.fill: parent
+        type: NodeType.AND
     }
 
-/*    ListModel {
-        id: inputs
-    }
-
-    ListModel {
-        id: outputs
-    }
-
-*/
     Rectangle {
         id: rectangle
         anchors.fill: parent 
-        color: "white"
     }
+
+
 
     DropShadow {
         id: shadow
@@ -41,7 +38,7 @@ Item {
         target: parent
         acceptedDevices: PointerDevice.AllDevices
         onTapped: {
-            console.log("tap")
+            console.log("tap " + backend.type)
             forceActiveFocus()
         }
     }
@@ -59,10 +56,10 @@ Item {
         if (focus) {
             shadow.radius = 15
             shadow.samples = 20
-            node.z = 3
+            basicnode.z = 3
             console.log("act\n");
         }else{
-            node.z = 2
+            basicnode.z = 2
             shadow.radius = 10
             shadow.samples = 15
             console.log("inact\n");

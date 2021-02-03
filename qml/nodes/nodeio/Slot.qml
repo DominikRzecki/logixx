@@ -1,17 +1,31 @@
-import QtGraphicalEffects 1.12
+import QtQuick 2.12
+import QtGraphicalEffects 1.15
 import com.rzecki.logix 1.0
+import "../"
 
-SlotClass {
+Item {
     id: slot
-    x: 0
-    y: 0 //parent.height/4
-    z: 0 //parent.z+1
+
+    property alias currentState: slotbackend.state
+    property alias color: circle.fillColor
+    property alias radius: circle.r
+
+    SlotBackend {
+        id: slotbackend
+        state: SlotType.UNDEFINED
+    }
+
     Circle {
         id: circle
         posX: slot.x
         posY: slot.y
         z: slot.z
+        r: 4
+        TapHandler {
+            onTapped: console.log(slotbackend.state)
+        }
     }
+
     DropShadow {
         id: shadow
         anchors.fill: circle

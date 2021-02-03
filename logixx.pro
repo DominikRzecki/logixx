@@ -1,5 +1,5 @@
-QT += quick
-CONFIG += c++17 qmltypes
+QT += quick widgets
+CONFIG += c++17 metatypes qmltypes
 QML_IMPORT_NAME = com.rzecki.logix
 QML_IMPORT_MAJOR_VERSION = 1
 
@@ -14,6 +14,8 @@ DEFINES += QT_DEPRECATED_WARNINGS #\
 # In order to do so, uncomment the following line.
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
+
+INCLUDEPATH += headers \
 
 RESOURCES += qml.qrc
 
@@ -35,17 +37,13 @@ ANDROID_ABIS = armeabi-v7a arm64-v8a
 
 HEADERS += \
 	headers/iolist.h \
-	headers/node.h \
-	headers/slot.h
+	headers/nodebackend.h \
+	headers/nodedroparea.h \
+	headers/slotbackend.h
 
 SOURCES += \
 	sources/iolist.cpp \
 	sources/main.cpp \
-	sources/node.cpp
-
-DISTFILES += \
-	qml/main.qml \
-	qml/nodes/BasicNode.qml \
-	qml/nodes/Circle.qml \
-	qml/nodes/nodeio/ConnectionPath.qml \
-	qml/nodes/nodeio/Slot.qml
+	sources/nodebackend.cpp \
+	sources/nodedroparea.cpp \
+	sources/slotbackend.cpp
