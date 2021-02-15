@@ -1,4 +1,4 @@
-QT += quick widgets
+QT += quick quickcontrols2 widgets
 CONFIG += c++17 metatypes qmltypes
 QML_IMPORT_NAME = com.rzecki.logix
 QML_IMPORT_MAJOR_VERSION = 1
@@ -39,6 +39,7 @@ HEADERS += \
 	headers/iolist.h \
 	headers/nodebackend.h \
 	headers/nodedroparea.h \
+	headers/objectpointer.h \
 	headers/slotbackend.h
 
 SOURCES += \
@@ -46,4 +47,5 @@ SOURCES += \
 	sources/main.cpp \
 	sources/nodebackend.cpp \
 	sources/nodedroparea.cpp \
+	sources/objectpointer.cpp \
 	sources/slotbackend.cpp

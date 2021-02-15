@@ -3,6 +3,15 @@ import QtGraphicalEffects 1.0
 import QtQuick.Shapes 1.15
 import "../"
 
+/*############################################################################
+
+  ConnectionPath.qml
+  Enables connecting different Nodes visually, using a Line(path),
+  which can be draged using a invisible rectangle(targetRect).
+  The start of that line is marked by a dot (circle)
+
+#############################################################################*/
+
 Shape {
     id: shape
     antialiasing: true
@@ -13,6 +22,30 @@ Shape {
     property alias targetY: targetRect.y
     property var target
 
+    //Path visualising the connection, between different Nodes
+    /*######################################################
+
+      Split into 4 dynamically adjustable segments(S1, S2, E2, E1) + start segment + target Segment
+
+                           |20px-|
+                   node1----
+                   O       |
+                   | start O----S1
+                   O       |     |
+                -  ---------     |
+node.width/2+20 |                |
+                -    E2---------S2      -
+                      |                 | node.width/2+20
+                      |    node2-----   –
+                      |    |        |
+                     E1---[] target |
+                           |        O--..
+                           O        |
+                           |        |
+                           ----------
+                      |20px|
+
+    #######################################################*/
     ShapePath {
         id: path
         strokeColor: "black"
@@ -21,7 +54,34 @@ Shape {
         startX: 0; startY: 0
         capStyle: ShapePath.RoundCap
 
-        PathCurve { id: targetPoint; x: targetRect.x+targetRect.width/2; y: targetRect.y+targetRect.height/2; }
+        PathLine {
+            id: pathlineS1
+            x: (path.startX === targetPoint.x) ? path.startX : path.startX + 20;
+            y: path.startY
+        }
+        PathLine {
+            id: pathlineS2
+            x: ( pathlineE1.x > pathlineS1.x ) ? ( targetPoint.x - path.startX ) / 2 : pathlineS1.x
+            y: ( path.startY === targetPoint.y) ? 0 : ( pathlineE1.x > pathlineS1.x ) ?  path.startY : (targetPoint.y >= path.startY) ? shape.parent.height / 2 + 20 : -shape.parent.height / 2 - 20
+        }
+
+        PathLine {
+            id: pathlineE2
+            x: ( pathlineE1.x > pathlineS1.x) ? ( targetPoint.x - path.startX ) / 2 : pathlineE1.x
+            y: ( path.startY === targetPoint.y) ? 0 : ( pathlineE1.x > pathlineS1.x) ?  targetPoint.y : (targetPoint.y >= path.startY) ? shape.parent.height / 2 + 20 : -shape.parent.height / 2 - 20
+        }
+
+        PathLine {
+            id: pathlineE1
+            x: (path.startX === targetPoint.x) ? targetPoint.x : targetPoint.x - 20;
+            y: targetPoint.y
+        }
+        //target coords are bound to targetRect
+        PathLine {
+            id: targetPoint;
+            x: targetRect.x+targetRect.width/2;
+            y: targetRect.y+targetRect.height/2;
+        }
     }
 
     Circle {
@@ -32,26 +92,13 @@ Shape {
         fillColor: "blue"
         strokeColor: "transparent"
     }
-
-
-
-    /*MouseArea {
-        id: mouseArea
-        x: -width/2
-        y: -height/2
-        z: circle.z+0.2
-        width: 20
-        height: 20
-
-        onReleased: targetRect.Drag.drop
-
-        drag.target: targetRect
-        //onReleased:*/
-    /*MouseArea {
-            id: mouseArea
-            anchors.fill: parent
-            drag.target: targetRect
-        }*/
+    //Rectangle that can be dragged is "leading" the path
+    /* ###############################
+      Emits enter, exit and drop signals when dropped a object accepting drops.
+      That signal can be caught and the targetX and targetY or targetRect.x/-y properties
+      can be bound to a property of that object. That allows us to permanently bind the target position
+      of the ConnectionPath to that object.
+    */
     Rectangle {
         id: targetRect
         x: -width/2
@@ -59,57 +106,58 @@ Shape {
         z: circle.z+0.2
         width: 20
         height: 20
-        color: "green"
+        color: "transparent"
 
-        //Drag.source:  targetRect
-        Drag.active: dragHandler.active
-        //Drag.active: mouseArea.drag.active
-        //Drag.mimeData: { "text/plain": shape.display }
         Drag.hotSpot.x: width/2
         Drag.hotSpot.y: height/2
-        Drag.onDragStarted: console.log("drag started");
+
+        // Workaround enabling real time update of the pathcoordinates, even when Drag.dragType is set to Drag.Automatic instead of Drag.Internal
+        property bool dragActive: dragHandler.active
+
+        onDragActiveChanged: {
+            //<=3=>
+            if (dragActive) {
+                print("drag started")
+                Drag.start();
+            } else {
+                print("drag finished")
+                Drag.drop();
+            }
+        }
+        /*
+        When Drag.Automatic is set, the drop signal will be emited with a valid drop.source, otherwise
+        the drop source will be null.
+        */
         Drag.dragType: Drag.Automatic
 
+        //dragHandler enables draging of the Rectangle
         DragHandler {
             id: dragHandler
             target: targetRect
             acceptedButtons: Qt.LeftButton
             acceptedDevices: PointerDevice.AllDevices
-            /*onActiveChanged: {
-                console.log("drop")
-                if(targetRect.Drag.target === null) {
-                    targetRect.x = -targetRect.width/2; targetRect.y = -targetRect.height/2;
-                } else {
-                    //console.log(targetRect.Drag.target.parent.x);
-
-                    //targetRect.x = targetRect.Drag.target.parent.x;
-                    //targetRect.y = targetRect.Drag.target.parent.y;
-                    targetRect.Drag.drop();
-                    //targetRect.x = targetRect.Drag.target.x;
-                    //console.log(targetRect.Drag.target);
+            onActiveChanged: {
+                var trgt = targetRect.Drag.target;
+                if(targetRect.Drag.target === null || targetRect.Drag.target.parent === shape.parent){
+                    //If the rectangle is dropped outside a n object or onto its own parent, it returns to 0 0
+                    targetRect.x = -targetRect.width/2;
+                    targetRect.y = -targetRect.height/2;
+                } else if (targetRect.Drag.target.parent instanceof BasicNode){
+                    /*
+                    <=2=>
+                    If targetRect is dropped onto a instance of BasicNode, then the permanent property of a assigned "Slot",
+                    which was created before, is set to true and targetRect is moved onto that Slot, so it can trigger its DropAreas onDropped.
+                    See BasicGate.qml for more info.
+                    The functions are called in the order of the number n of <=n=>
+                    */
+                    console.log(trgt.parent.children[3].count);
+                    trgt.parent.children[3].itemAtIndex(trgt.parent.children[3].count-1).permanent = true;
+                    targetRect.x = targetRect.Drag.target.parent.x - shape.parent.x - targetRect.width/2 - trgt.parent.width;
+                    targetRect.y = targetRect.Drag.target.parent.y - shape.parent.y - targetRect.height/2 - trgt.parent.height/2 + trgt.parent.children[3].height / (trgt.parent.children[3].count+1) * trgt.parent.children[3].count;
                 }
-                targetRect.Drag.targe
-            }*/
+            }
         }
     }
-    property string display
-
-
-        /*Item {
-            z: circle.z+0.3
-            id: draggable
-            anchors.fill: parent
-            Drag.active: mouseArea.drag.active
-            Drag.hotSpot.x: 0
-            Drag.hotSpot.y: 0
-            Drag.mimeData: { "text/plain": shape.display }
-            Drag.dragType: Drag.Automatic
-            Drag.onDragFinished: (dropAction) => {
-                if (dropAction == Qt.MoveAction)
-                    item.display = ""
-            }
-        }*/
-
 
     TapHandler {
         target: parent
@@ -126,14 +174,6 @@ Shape {
         samples: 10
         source: circle
     }
-    //layer.enabled: true
-    //layer.samples: 4
-    /*layer.effect: DropShadow {
-        id: shadow
-        color: Qt.rgba(0, 0, 0, 0.5)
-        radius: 5
-        samples: 10
-    }*/
 
     onFocusChanged: {
         if (focus) {

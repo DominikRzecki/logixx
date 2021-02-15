@@ -1,5 +1,8 @@
 import QtQuick 2.15
 import QtGraphicalEffects 1.0
+import QtQuick.Controls 2.15
+import QtQuick.Controls.Material 2.15
+import QtQuick.Layouts 1.4
 import com.rzecki.logix 1.0
 import "nodeio"
 
@@ -37,6 +40,7 @@ Item {
         id: taphandler
         target: parent
         acceptedDevices: PointerDevice.AllDevices
+        dragThreshold: 5
         onTapped: {
             console.log("tap " + backend.type)
             forceActiveFocus()
@@ -44,10 +48,20 @@ Item {
     }
 
     DragHandler {
+        id: dragHandler
         target: parent
+
         onActiveChanged: {
             if(active){
                 forceActiveFocus()
+                /*if (basicnode.parent instanceof GridLayout) {
+                    basicnode.parent = basicnode.parent.parent.parent.parent.parent.parent.parent
+                    console.log("asf")
+                }*/
+            } else {
+                //enables grid snapping
+                basicnode.x = basicnode.x - basicnode.x % 10
+                basicnode.y = basicnode.y - basicnode.y % 10
             }
         }
     }

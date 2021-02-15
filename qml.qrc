@@ -7,5 +7,8 @@
         <file>qml/main.qml</file>
         <file>qml/nodes/intermediary/AndGate.qml</file>
         <file>qml/nodes/intermediary/BasicGate.qml</file>
+        <file>qml/nodes/nodeio/NumInput.qml</file>
+        <file>qml/ui/MenuBarPane.qml</file>
+        <file>qml/ui/CreatePane.qml</file>
     </qresource>
 </RCC>

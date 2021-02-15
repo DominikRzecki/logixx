@@ -7,6 +7,7 @@ Item {
     id: slot
 
     property alias currentState: slotbackend.state
+    property alias source: slotbackend.source
     property alias color: circle.fillColor
     property alias radius: circle.r
 
