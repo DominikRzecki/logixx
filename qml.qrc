@@ -10,5 +10,7 @@
         <file>qml/nodes/nodeio/NumInput.qml</file>
         <file>qml/ui/MenuBarPane.qml</file>
         <file>qml/ui/CreatePane.qml</file>
+        <file>qml/nodes/input/BasicInput.qml</file>
+        <file>qml/nodes/input/SwitchInput.qml</file>
     </qresource>
 </RCC>

@@ -5,7 +5,7 @@
 #include <qqml.h>
 
 
-class SlotType : public QObject {
+class SlotState : public QObject {
     Q_OBJECT
     QML_ELEMENT
     QML_UNCREATABLE("SlotType is an enum")
@@ -22,26 +22,26 @@ public:
 
 };
 
-Q_DECLARE_METATYPE(SlotType::State)
+Q_DECLARE_METATYPE(SlotState::State)
 
 class SlotBackend : public QObject
 {
     Q_OBJECT
-        Q_PROPERTY(SlotType::State state READ state WRITE setState NOTIFY stateChanged)
+        Q_PROPERTY(SlotState::State state READ state WRITE setState NOTIFY stateChanged)
         Q_PROPERTY(QObject* source READ source WRITE setSource /*NOTIFY onSourceChanged*/)
     QML_ELEMENT
 public:
     explicit SlotBackend(QObject *parent = nullptr);
 
-    SlotType::State m_state = SlotType::State::UNDEFINED;
+    SlotState::State m_state = SlotState::State::UNDEFINED;
 
 signals:
     void stateChanged();
     //void onSourceChanged();
 
 protected:
-    SlotType::State state() const;
-    void setState(const SlotType::State &state);
+    SlotState::State state() const;
+    void setState(const SlotState::State &state);
     QObject* source();
     void setSource(QObject* src);
 private:

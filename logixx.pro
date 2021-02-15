@@ -1,5 +1,5 @@
 QT += quick quickcontrols2 widgets
-CONFIG += c++17 metatypes qmltypes
+CONFIG += c++20 metatypes qmltypes
 QML_IMPORT_NAME = com.rzecki.logix
 QML_IMPORT_MAJOR_VERSION = 1
 

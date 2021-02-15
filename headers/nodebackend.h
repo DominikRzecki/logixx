@@ -60,18 +60,16 @@ class NodeBackend : public QObject
 public:
     explicit NodeBackend(QObject *parent = nullptr);
 
-signals:
-
-    void typeChanged();
-    void targetChanged();
-
-protected:
-
     NodeType::All type() const;
     void setType(const NodeType::All &type);
 
     QObject* target() const;
     void setTarget(QObject* target);
+
+signals:
+
+    void typeChanged();
+    void targetChanged();
 
 private:
 

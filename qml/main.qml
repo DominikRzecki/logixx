@@ -6,6 +6,7 @@ import QtQuick.Layouts 1.15
 
 import "nodes"
 import "nodes/intermediary"
+import "nodes/input"
 import "ui"
 
 ApplicationWindow {
@@ -59,6 +60,11 @@ ApplicationWindow {
             id: noded
             x: 500
             y: 500
+        }
+
+        SwitchInput {
+            x: 100
+            y: 100
         }
     }
 

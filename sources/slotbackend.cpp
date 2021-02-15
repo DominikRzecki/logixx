@@ -5,12 +5,12 @@ SlotBackend::SlotBackend(QObject *parent) : QObject(parent)
 
 }
 
-SlotType::State SlotBackend::state() const
+SlotState::State SlotBackend::state() const
 {
     return m_state;
 }
 
-void SlotBackend::setState(const SlotType::State &state)
+void SlotBackend::setState(const SlotState::State &state)
 {
     m_state = state;
 }

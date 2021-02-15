@@ -2,6 +2,9 @@ import QtQuick 2.15
 import QtGraphicalEffects 1.0
 import QtQuick.Shapes 1.15
 import "../"
+import "../intermediary"
+
+import com.rzecki.logix 1.0
 
 /*############################################################################
 
@@ -21,6 +24,20 @@ Shape {
     property alias targetX: targetRect.x
     property alias targetY: targetRect.y
     property var target
+
+    property int connectionState: SlotState.LOW
+
+    onConnectionStateChanged: {
+        console.debug(target.parent)
+        if ( target.parent instanceof BasicGate ) {
+            target.state = connectionState
+            if ( connectionState === SlotState.HIGH) {
+                path.strokeColor = "red";
+            } else {
+                path.strokeColor = "black";
+            }
+        }
+    }
 
     //Path visualising the connection, between different Nodes
     /*######################################################
@@ -62,13 +79,13 @@ node.width/2+20 |                |
         PathLine {
             id: pathlineS2
             x: ( pathlineE1.x > pathlineS1.x ) ? ( targetPoint.x - path.startX ) / 2 : pathlineS1.x
-            y: ( path.startY === targetPoint.y) ? 0 : ( pathlineE1.x > pathlineS1.x ) ?  path.startY : (targetPoint.y >= path.startY) ? shape.parent.height / 2 + 20 : -shape.parent.height / 2 - 20
+            y: ( path.startY === targetPoint.y && path.startX === targetPoint.x ) ? 0 : ( pathlineE1.x > pathlineS1.x ) ?  path.startY : (targetPoint.y >= path.startY) ? shape.parent.height / 2 + 20 : -shape.parent.height / 2 - 20
         }
 
         PathLine {
             id: pathlineE2
             x: ( pathlineE1.x > pathlineS1.x) ? ( targetPoint.x - path.startX ) / 2 : pathlineE1.x
-            y: ( path.startY === targetPoint.y) ? 0 : ( pathlineE1.x > pathlineS1.x) ?  targetPoint.y : (targetPoint.y >= path.startY) ? shape.parent.height / 2 + 20 : -shape.parent.height / 2 - 20
+            y: ( path.startY === targetPoint.y && path.startX === targetPoint.x ) ? 0 : ( pathlineE1.x > pathlineS1.x) ?  targetPoint.y : (targetPoint.y >= path.startY) ? shape.parent.height / 2 + 20 : -shape.parent.height / 2 - 20
         }
 
         PathLine {
@@ -137,7 +154,7 @@ node.width/2+20 |                |
             acceptedButtons: Qt.LeftButton
             acceptedDevices: PointerDevice.AllDevices
             onActiveChanged: {
-                var trgt = targetRect.Drag.target;
+                shape.target = targetRect.Drag.target;
                 if(targetRect.Drag.target === null || targetRect.Drag.target.parent === shape.parent){
                     //If the rectangle is dropped outside a n object or onto its own parent, it returns to 0 0
                     targetRect.x = -targetRect.width/2;
@@ -150,10 +167,10 @@ node.width/2+20 |                |
                     See BasicGate.qml for more info.
                     The functions are called in the order of the number n of <=n=>
                     */
-                    console.log(trgt.parent.children[3].count);
-                    trgt.parent.children[3].itemAtIndex(trgt.parent.children[3].count-1).permanent = true;
-                    targetRect.x = targetRect.Drag.target.parent.x - shape.parent.x - targetRect.width/2 - trgt.parent.width;
-                    targetRect.y = targetRect.Drag.target.parent.y - shape.parent.y - targetRect.height/2 - trgt.parent.height/2 + trgt.parent.children[3].height / (trgt.parent.children[3].count+1) * trgt.parent.children[3].count;
+                    console.log(shape.target.parent.children[3].count);
+                    shape.target.parent.children[3].itemAtIndex(shape.target.parent.children[3].count-1).permanent = true;
+                    targetRect.x = targetRect.Drag.target.parent.x - shape.parent.x - targetRect.width/2 - shape.target.parent.width;
+                    targetRect.y = targetRect.Drag.target.parent.y - shape.parent.y - targetRect.height/2 - shape.target.parent.height/2 + shape.target.parent.children[3].height / (shape.target.parent.children[3].count+1) * shape.target.parent.children[3].count;
                 }
             }
         }

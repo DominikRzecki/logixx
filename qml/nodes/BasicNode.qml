@@ -14,15 +14,20 @@ Item {
 
     property alias color: rectangle.color
     property alias backend: backend
+    property alias taphandler: taphandler
+    property alias draghandler: draghandler
 
     NodeBackend {
         id: backend
-        type: NodeType.AND
+        type: NodeType.BASIC
     }
 
     Rectangle {
         id: rectangle
         anchors.fill: parent 
+        onColorChanged: {
+            update();
+        }
     }
 
 
@@ -42,13 +47,12 @@ Item {
         acceptedDevices: PointerDevice.AllDevices
         dragThreshold: 5
         onTapped: {
-            console.log("tap " + backend.type)
             forceActiveFocus()
         }
     }
 
     DragHandler {
-        id: dragHandler
+        id: draghandler
         target: parent
 
         onActiveChanged: {

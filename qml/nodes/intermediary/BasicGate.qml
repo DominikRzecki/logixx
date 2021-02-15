@@ -11,13 +11,6 @@ import "../nodeio/"
 BasicNode {
     id: basicNode
 
-    /*NumInput {
-        x: 10
-        y: 10
-        width: 30
-        height: 15
-    }*/
-
     DropArea {
         id: dropArea
         width: basicNode.width-10

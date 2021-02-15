@@ -13,7 +13,7 @@ Item {
 
     SlotBackend {
         id: slotbackend
-        state: SlotType.UNDEFINED
+        state: SlotState.UNDEFINED
     }
 
     Circle {
