@@ -1,4 +1,4 @@
-#include "../headers/nodedroparea.h"
+#include "nodedroparea.h"
 
 NodeDropArea::NodeDropArea(QQuickItem *parent)
         : QQuickItem (parent),

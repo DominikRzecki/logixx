@@ -66,6 +66,11 @@ ApplicationWindow {
             x: 100
             y: 100
         }
+
+        AndGate {
+            x: 500
+            y: 500
+        }
     }
 
 

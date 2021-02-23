@@ -14,6 +14,11 @@ Item {
     SlotBackend {
         id: slotbackend
         state: SlotState.UNDEFINED
+        onStateChanged: {
+            console.debug(slot + " : " + "state changed")
+            //Updating node output
+            slot.parent.parent.parent.parent.backend.update();
+        }
     }
 
     Circle {
@@ -22,8 +27,11 @@ Item {
         posY: slot.y
         z: slot.z
         r: 4
+
         TapHandler {
-            onTapped: console.log(slotbackend.state)
+            onTapped: {
+                console.debug(slot + " : " + slotbackend.state)
+            }
         }
     }
 

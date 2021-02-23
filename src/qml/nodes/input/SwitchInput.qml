@@ -17,7 +17,7 @@ BasicInput {
     taphandler.onTapped: {
         if( output.connectionState === SlotState.LOW ) {
             output.connectionState = SlotState.HIGH;
-            basicNode.color = "green"
+            basicNode.color = "lightgreen"
         } else {
             output.connectionState = SlotState.LOW;
             basicNode.color = "white"

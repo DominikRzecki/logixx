@@ -28,7 +28,7 @@ class SlotBackend : public QObject
 {
     Q_OBJECT
         Q_PROPERTY(SlotState::State state READ state WRITE setState NOTIFY stateChanged)
-        Q_PROPERTY(QObject* source READ source WRITE setSource /*NOTIFY onSourceChanged*/)
+        Q_PROPERTY(QObject* source READ source WRITE setSource NOTIFY sourceChanged)
     QML_ELEMENT
 public:
     explicit SlotBackend(QObject *parent = nullptr);
@@ -37,7 +37,7 @@ public:
 
 signals:
     void stateChanged();
-    //void onSourceChanged();
+    void sourceChanged();
 
 protected:
     SlotState::State state() const;

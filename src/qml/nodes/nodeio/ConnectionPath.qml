@@ -21,21 +21,29 @@ Shape {
     width: targetX-x
     height: targetY-y
 
+    //Theese properties are aliases for the position of targetRect.
     property alias targetX: targetRect.x
     property alias targetY: targetRect.y
+
+    //This property holds the target object. If there is none, it should default to null.
     property var target
 
-    property int connectionState: SlotState.LOW
+    //The following property holds The state of the ConnectionPath, if the state hasnt been computed yet, it should be SlotType.UNKNOWN.
+    property int connectionState: SlotState.UNKNOWN
 
+    //When connectionState changes, the following function is called.
     onConnectionStateChanged: {
-        console.debug(target.parent)
-        if ( target.parent instanceof BasicGate ) {
-            target.state = connectionState
-            if ( connectionState === SlotState.HIGH) {
-                path.strokeColor = "red";
-            } else {
-                path.strokeColor = "black";
-            }
+        console.debug(shape + ".state: " + connectionState)
+        if ( target instanceof Slot ) {
+            //If the target is a Slot, the target.currentState property is set.
+            target.currentState = connectionState;
+        }
+
+        if ( connectionState === SlotState.HIGH) {
+            //if the connectionState is HIGH, the visual color of the path is set to red, else it defaults to black.
+            path.strokeColor = "red";
+        } else {
+            path.strokeColor = "black";
         }
     }
 
@@ -134,10 +142,10 @@ node.width/2+20 |                |
         onDragActiveChanged: {
             //<=3=>
             if (dragActive) {
-                print("drag started")
+                console.debug(shape + " : drag started");
                 Drag.start();
             } else {
-                print("drag finished")
+                console.debug(shape + " : drag finished");
                 Drag.drop();
             }
         }
@@ -154,23 +162,36 @@ node.width/2+20 |                |
             acceptedButtons: Qt.LeftButton
             acceptedDevices: PointerDevice.AllDevices
             onActiveChanged: {
-                shape.target = targetRect.Drag.target;
+                //<=2=>
+                //The functions are called in the order of the number n of <=n=>
+                console.debug(shape + " : " + "onActiveChanged");
+
+                // checks if dropped onto nothing or itself
                 if(targetRect.Drag.target === null || targetRect.Drag.target.parent === shape.parent){
                     //If the rectangle is dropped outside a n object or onto its own parent, it returns to 0 0
                     targetRect.x = -targetRect.width/2;
                     targetRect.y = -targetRect.height/2;
-                } else if (targetRect.Drag.target.parent instanceof BasicNode){
-                    /*
-                    <=2=>
-                    If targetRect is dropped onto a instance of BasicNode, then the permanent property of a assigned "Slot",
-                    which was created before, is set to true and targetRect is moved onto that Slot, so it can trigger its DropAreas onDropped.
-                    See BasicGate.qml for more info.
-                    The functions are called in the order of the number n of <=n=>
-                    */
-                    console.log(shape.target.parent.children[3].count);
-                    shape.target.parent.children[3].itemAtIndex(shape.target.parent.children[3].count-1).permanent = true;
-                    targetRect.x = targetRect.Drag.target.parent.x - shape.parent.x - targetRect.width/2 - shape.target.parent.width;
-                    targetRect.y = targetRect.Drag.target.parent.y - shape.parent.y - targetRect.height/2 - shape.target.parent.height/2 + shape.target.parent.children[3].height / (shape.target.parent.children[3].count+1) * shape.target.parent.children[3].count;
+                // checks if dropped onto another BasicNode
+                } else {
+                    if (targetRect.Drag.target.parent instanceof BasicNode){
+                        //connection target is set to BasicNode
+
+                        //setting the target to an instance of BasicNode
+                        shape.target = targetRect.Drag.target
+
+                        /*
+                        If targetRect is dropped onto a instance of BasicNode, then the property "permanent" of a assigned "Slot",
+                        which was created before, is set to true and targetRect is moved onto that Slot, so it can trigger its DropAreas onDropped.
+                        See BasicGate.qml for more info.
+                        */
+
+                        shape.target.parent.children[3].itemAtIndex(shape.target.parent.children[3].count-1).permanent = true;
+                        targetRect.x = targetRect.Drag.target.parent.x - shape.parent.x - targetRect.width/2 - shape.parent.width;
+                        targetRect.y = targetRect.Drag.target.parent.y - shape.parent.y - targetRect.height/2 - shape.parent.height/2 + shape.target.parent.children[3].height / (shape.target.parent.children[3].count+1) * shape.target.parent.children[3].count;
+                    } //else if (targetRect.Drag.target.parent.children[0] instanceof Slot) {
+                        //setting the target to an instance of BasicNode
+                        //shape.target = targetRect.Drag.target.parent.children[0];
+                    //}
                 }
             }
         }

@@ -4,9 +4,6 @@
 #include <QQuickWindow>
 #include <QQuickStyle>
 
-#include "headers/nodebackend.h"
-#include "headers/slotbackend.h"
-
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
@@ -22,7 +19,7 @@ int main(int argc, char *argv[])
     QQuickStyle::setFallbackStyle("Universal");
 
     QQmlApplicationEngine engine;
-    engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
+    engine.load(QUrl(QStringLiteral("qrc:/src/qml/main.qml")));
         if (engine.rootObjects().isEmpty())
             return -1;
 

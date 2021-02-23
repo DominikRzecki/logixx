@@ -1,4 +1,4 @@
-#include "headers/iolist.h"
+#include "iolist.h"
 
 InputList::InputList(QPointer<QObject> parent)
     //: m_component{}

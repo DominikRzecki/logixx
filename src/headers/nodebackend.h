@@ -2,7 +2,10 @@
 #define NODEBACKEND_H
 
 #include <QObject>
+#include <QAbstractListModel>
 #include <qqml.h>
+
+#include "slotbackend.h"
 
 class NodeType : public QObject{
     Q_OBJECT
@@ -57,7 +60,9 @@ class NodeBackend : public QObject
         Q_PROPERTY(NodeType::All type READ type WRITE setType NOTIFY typeChanged)
         Q_PROPERTY(QObject* target READ target WRITE setTarget NOTIFY targetChanged)
     QML_ELEMENT
+
 public:
+
     explicit NodeBackend(QObject *parent = nullptr);
 
     NodeType::All type() const;
@@ -66,15 +71,23 @@ public:
     QObject* target() const;
     void setTarget(QObject* target);
 
+public slots:
+
+    void update();
+
 signals:
 
     void typeChanged();
     void targetChanged();
 
-private:
+protected:
+
+    virtual void updatederived();
 
     NodeType::All m_type = NodeType::All::BASIC;
-    QObject* m_target;
+    QObject* m_target = nullptr;
+    QAbstractListModel* m_slotModel = nullptr;
+    QList<QVariant> m_inputs;
 };
 
 #endif // NODEBACKEND_H

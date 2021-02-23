@@ -1,16 +1,16 @@
 <RCC>
     <qresource prefix="/">
-        <file>qml/nodes/nodeio/ConnectionPath.qml</file>
-        <file>qml/nodes/nodeio/Slot.qml</file>
-        <file>qml/nodes/BasicNode.qml</file>
-        <file>qml/nodes/Circle.qml</file>
-        <file>qml/main.qml</file>
-        <file>qml/nodes/intermediary/AndGate.qml</file>
-        <file>qml/nodes/intermediary/BasicGate.qml</file>
-        <file>qml/nodes/nodeio/NumInput.qml</file>
-        <file>qml/ui/MenuBarPane.qml</file>
-        <file>qml/ui/CreatePane.qml</file>
-        <file>qml/nodes/input/BasicInput.qml</file>
-        <file>qml/nodes/input/SwitchInput.qml</file>
+        <file>src/qml/nodes/nodeio/ConnectionPath.qml</file>
+        <file>src/qml/nodes/nodeio/Slot.qml</file>
+        <file>src/qml/nodes/BasicNode.qml</file>
+        <file>src/qml/nodes/Circle.qml</file>
+        <file>src/qml/main.qml</file>
+        <file>src/qml/nodes/intermediary/AndGate.qml</file>
+        <file>src/qml/nodes/intermediary/BasicGate.qml</file>
+        <file>src/qml/nodes/nodeio/NumInput.qml</file>
+        <file>src/qml/ui/MenuBarPane.qml</file>
+        <file>src/qml/ui/CreatePane.qml</file>
+        <file>src/qml/nodes/input/BasicInput.qml</file>
+        <file>src/qml/nodes/input/SwitchInput.qml</file>
     </qresource>
 </RCC>

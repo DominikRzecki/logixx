@@ -6,7 +6,12 @@ import com.rzecki.logix 1.0
 
 BasicGate {
     id: basicgate
-    backend.type: NodeType.AND
+    backend: AndBackend {
+        type: NodeType.AND
+        target: basicgate.connectionPath
+    }
+
+    //backend.type: NodeType.AND
 
     /*NumInput {
         x: 10

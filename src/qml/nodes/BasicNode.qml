@@ -13,12 +13,11 @@ Item {
     color: "white"
 
     property alias color: rectangle.color
-    property alias backend: backend
     property alias taphandler: taphandler
     property alias draghandler: draghandler
+    property NodeBackend backend
 
-    NodeBackend {
-        id: backend
+    backend: NodeBackend {
         type: NodeType.BASIC
     }
 

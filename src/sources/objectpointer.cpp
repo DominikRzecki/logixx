@@ -1,4 +1,4 @@
-#include "../headers/objectpointer.h"
+#include "objectpointer.h"
 
 ObjectPointer::ObjectPointer(QObject *parent) : QObject(parent)
 {

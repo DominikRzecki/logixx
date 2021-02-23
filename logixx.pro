@@ -15,13 +15,16 @@ DEFINES += QT_DEPRECATED_WARNINGS #\
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-INCLUDEPATH += headers \
+INCLUDEPATH +=	src/headers \
+		src/headers/nodes \
+		src/headers/nodes/input \
+		src/headers/nodes/intermediary \
+		src/headers/nodes/output \
 
 RESOURCES += qml.qrc
 
 TRANSLATIONS += \
     logixx_en_US.ts
-
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
 
@@ -36,16 +39,24 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 ANDROID_ABIS = armeabi-v7a arm64-v8a
 
 HEADERS += \
-	headers/iolist.h \
-	headers/nodebackend.h \
-	headers/nodedroparea.h \
-	headers/objectpointer.h \
-	headers/slotbackend.h
+	src/headers/containermodel.h \
+	src/headers/iolist.h \
+	src/headers/nodealgorithms.h \
+	src/headers/nodebackend.h \
+	src/headers/nodedroparea.h \
+	src/headers/nodeprocessor.h \
+	src/headers/nodes/intermediary/andbackend.h \
+	src/headers/objectpointer.h \
+	src/headers/slotbackend.h
 
 SOURCES += \
-	sources/iolist.cpp \
-	sources/main.cpp \
-	sources/nodebackend.cpp \
-	sources/nodedroparea.cpp \
-	sources/objectpointer.cpp \
-	sources/slotbackend.cpp
+	src/sources/containermodel.cpp \
+	src/sources/iolist.cpp \
+	src/sources/main.cpp \
+	src/sources/nodealgorithms.cpp \
+	src/sources/nodebackend.cpp \
+	src/sources/nodedroparea.cpp \
+	src/sources/nodeprocessor.cpp \
+	src/sources/nodes/intermediary/andbackend.cpp \
+	src/sources/objectpointer.cpp \
+	src/sources/slotbackend.cpp
