@@ -1,0 +1,6 @@
+[submodule "src/QOlm"]
+	path = src/QOlm
+	url = https://github.com/OlivierLDff/QOlm.git
+[submodule "src/submodules/QOlm"]
+	path = src/submodules/QOlm
+	url = https://github.com/OlivierLDff/QOlm.git
