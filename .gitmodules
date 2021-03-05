@@ -4,3 +4,6 @@
 [submodule "src/submodules/QOlm"]
 	path = src/submodules/QOlm
 	url = https://github.com/OlivierLDff/QOlm.git
+[submodule "src/submodules/QObjectListModel-QQuickList"]
+	path = src/submodules/QObjectListModel-QQuickList
+	url = https://github.com/Murazaki/QObjectListModel-QQuickList.git

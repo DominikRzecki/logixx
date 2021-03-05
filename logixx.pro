@@ -1,7 +1,9 @@
 QT += quick quickcontrols2 widgets
-CONFIG += c++20 metatypes qmltypes
+CONFIG += c++17 metatypes qmltypes
 QML_IMPORT_NAME = com.rzecki.logix
 QML_IMPORT_MAJOR_VERSION = 1
+
+QMAKE_CXXFLAGS += -std=c++17
 
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
@@ -20,6 +22,8 @@ INCLUDEPATH +=	src/headers \
 		src/headers/nodes/input \
 		src/headers/nodes/intermediary \
 		src/headers/nodes/output \
+		src/submodules/QOlm/include \
+		src/submodules/eventpp/include
 
 RESOURCES += qml.qrc
 
@@ -44,10 +48,37 @@ HEADERS += \
 	src/headers/nodealgorithms.h \
 	src/headers/nodebackend.h \
 	src/headers/nodedroparea.h \
+	src/headers/nodeinput.h \
+	src/headers/nodeinputlist.h \
 	src/headers/nodeprocessor.h \
 	src/headers/nodes/intermediary/andbackend.h \
 	src/headers/objectpointer.h \
-	src/headers/slotbackend.h
+	src/headers/slotbackend.h \
+	src/submodules/QOlm/include/QOlm/Export.hpp \
+	src/submodules/QOlm/include/QOlm/QOlm.hpp \
+	src/submodules/QOlm/include/QOlm/QOlmBase.hpp \
+	src/submodules/eventpp/include/eventpp/callbacklist.h \
+	src/submodules/eventpp/include/eventpp/eventdispatcher.h \
+	src/submodules/eventpp/include/eventpp/eventpolicies.h \
+	src/submodules/eventpp/include/eventpp/eventqueue.h \
+	src/submodules/eventpp/include/eventpp/hetercallbacklist.h \
+	src/submodules/eventpp/include/eventpp/hetereventdispatcher.h \
+	src/submodules/eventpp/include/eventpp/hetereventqueue.h \
+	src/submodules/eventpp/include/eventpp/internal/eventpolicies_i.h \
+	src/submodules/eventpp/include/eventpp/internal/eventqueue_i.h \
+	src/submodules/eventpp/include/eventpp/internal/hetercallbacklist_i.h \
+	src/submodules/eventpp/include/eventpp/internal/typeutil_i.h \
+	src/submodules/eventpp/include/eventpp/mixins/mixinfilter.h \
+	src/submodules/eventpp/include/eventpp/mixins/mixinheterfilter.h \
+	src/submodules/eventpp/include/eventpp/utilities/anyid.h \
+	src/submodules/eventpp/include/eventpp/utilities/argumentadapter.h \
+	src/submodules/eventpp/include/eventpp/utilities/conditionalfunctor.h \
+	src/submodules/eventpp/include/eventpp/utilities/conditionalremover.h \
+	src/submodules/eventpp/include/eventpp/utilities/counterremover.h \
+	src/submodules/eventpp/include/eventpp/utilities/eventmaker.h \
+	src/submodules/eventpp/include/eventpp/utilities/eventutil.h \
+	src/submodules/eventpp/include/eventpp/utilities/orderedqueuelist.h \
+	src/submodules/eventpp/include/eventpp/utilities/scopedremover.h
 
 SOURCES += \
 	src/sources/containermodel.cpp \
@@ -56,7 +87,10 @@ SOURCES += \
 	src/sources/nodealgorithms.cpp \
 	src/sources/nodebackend.cpp \
 	src/sources/nodedroparea.cpp \
+	src/sources/nodeinput.cpp \
+	src/sources/nodeinputlist.cpp \
 	src/sources/nodeprocessor.cpp \
 	src/sources/nodes/intermediary/andbackend.cpp \
 	src/sources/objectpointer.cpp \
-	src/sources/slotbackend.cpp
+	src/sources/slotbackend.cpp \
+	src/submodules/QOlm/src/QOlmBase.cpp

@@ -9,7 +9,6 @@ class nodeprocessor : public QObject
 {
     Q_OBJECT
         Q_PROPERTY(QObject* targetParent READ targetParent WRITE setTargetParent NOTIFY targetParentChanged)
-    QML_ELEMENT
 
 public:
 

@@ -5,12 +5,16 @@ import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.15
 import QtQml.Models 2.3
 
+import "../nodes"
 import "../nodes/intermediary"
 
 Pane {
     id: toolpane
 
-    Material.elevation: 6
+    contentWidth: rowLayout.implicitWidth
+    contentHeight: rowLayout.implicitHeight
+
+    Material.elevation: 10
 
     ColumnLayout {
         id: columnLayout
@@ -30,18 +34,54 @@ Pane {
 
                 ScrollView {
                     id: scrollView
+                    Layout.margins: 5
                     contentWidth: -1
-                    clip: true
                     Layout.fillHeight: true
                     Layout.fillWidth: true
-                    Layout.minimumWidth: 150
+                    Layout.minimumWidth: 100
                     ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
                     ScrollBar.horizontal.interactive: false
 
-                    BasicGate {
-                        x: stackLayout.width/3
-                        y: 10
+                    //This ListView holds the different types of Nodes
+                    ListView {
+                        id: nodeListView
+                        anchors.fill: parent
+
+
+                        model: ListModel {
+                            ListElement {
+                                src: "../nodes/input/SwitchInput.qml"
+                            }
+                            ListElement {
+                                src: "../nodes/intermediary/AndGate.qml"
+                            }
+                        }
+
+                        //Item delegate is responsible for creating nodes
+                        delegate: Item {
+                            property Component comp: null       //Holds the nodes component
+                            property bool first: true           //true if first time created
+
+                            height: 100
+                            //x: nodeListView./2
+
+                            onChildrenChanged: {
+                                if(comp.status === Component.Ready)
+                                    comp.createObject(this, {state: "disabled", x: this.x});
+                            }
+
+                            Component.onCompleted: {
+                                if(comp === null) {
+                                    comp = Qt.createComponent(src);
+                                }
+                                if( first && comp.status === Component.Ready) {
+                                    comp.createObject(this, {state: "disabled", x: this.width});
+                                }
+                                first = false;
+                            }
+                        }
                     }
+
                 }
             }
             ListView {
@@ -53,6 +93,7 @@ Pane {
                 Layout.fillHeight: true
 
                 interactive: false
+                clip: true
 
                 property int currentIndex: 0
 
@@ -91,6 +132,10 @@ Pane {
                     id: exclusiveGroup
                 }
             }
-            }
+        }
+    }
+    DropArea {
+        anchors.fill: parent
+        keys: ["disabled"]
     }
 }

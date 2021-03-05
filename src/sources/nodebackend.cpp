@@ -1,4 +1,4 @@
-#include "nodebackend.h"
+﻿#include "nodebackend.h"
 
 void NodeBackend::update()
 {
@@ -8,7 +8,7 @@ void NodeBackend::update()
 
     //setting slotModel (6th child of basicGate)
     if ( !m_slotModel) {
-        m_slotModel = qobject_cast<QAbstractListModel*>(parent()->children().at(6));
+        m_slotModel = qobject_cast<QObject*>(parent()->children().at(9));
     }
 
     //Calling the node processing algorithm
@@ -22,9 +22,19 @@ void NodeBackend::updatederived()
     m_target->setProperty("connectionState", QVariant::fromValue(SlotState::State::UNDEFINED));
 }
 
+QObject *NodeBackend::slotModel() const
+{
+    return m_slotModel;
+}
+
+void NodeBackend::setSlotModel(QObject *slotModel)
+{
+    m_slotModel = slotModel;
+}
+
 NodeBackend::NodeBackend(QObject *parent) : QObject(parent)
 {
-
+    
 }
 
 NodeType::All NodeBackend::type() const

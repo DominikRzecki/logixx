@@ -36,43 +36,12 @@ ApplicationWindow {
 
         interactive: true
 
-
-        BasicGate {
-            id: nodec
-            x: 50
-            y: 50
-            //z: 1
-        }
-
-        BasicGate {
-            id: nodeb
-            x: 200
-            y: 200
-        }
-
-        BasicGate {
-            id: nodea
-            x: 400
-            y: 400
-        }
-
-        BasicGate {
-            id: noded
-            x: 500
-            y: 500
-        }
-
-        SwitchInput {
-            x: 100
-            y: 100
-        }
-
-        AndGate {
-            x: 500
-            y: 500
+        children: DropArea {
+            id: nodeDropArea
+            anchors.fill: flickable
+            keys: ['disabled']
         }
     }
-
 
 
     GridLayout {
@@ -102,6 +71,7 @@ ApplicationWindow {
             Layout.column: 0
             Layout.fillHeight: true
             Layout.maximumHeight: row.height / 2
+            //Layout.minimumWidth: 200
             Layout.alignment: Qt.AlignLeft | Qt.AlignHCenter
         }
     }

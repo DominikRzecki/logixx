@@ -1,11 +1,13 @@
-#ifndef NODEBACKEND_H
+﻿#ifndef NODEBACKEND_H
 #define NODEBACKEND_H
 
 #include <QObject>
 #include <QAbstractListModel>
-#include <qqml.h>
+#include <QtQml/QQmlComponent>
 
+#include "QOlm/QOlm.hpp"
 #include "slotbackend.h"
+#include "nodeinputlist.h"
 
 class NodeType : public QObject{
     Q_OBJECT
@@ -59,6 +61,8 @@ class NodeBackend : public QObject
     Q_OBJECT
         Q_PROPERTY(NodeType::All type READ type WRITE setType NOTIFY typeChanged)
         Q_PROPERTY(QObject* target READ target WRITE setTarget NOTIFY targetChanged)
+        Q_PROPERTY(QObject* slotModel READ  slotModel WRITE setSlotModel NOTIFY slotModelChanged)
+        //Q_PROPERTY(ObjectList inputs READ inputs WRITE setInputs)
     QML_ELEMENT
 
 public:
@@ -71,6 +75,12 @@ public:
     QObject* target() const;
     void setTarget(QObject* target);
 
+    //qolm::QOlm<QObject> inputs() const;
+    //void setInputs(const qolm::QOlm<QObject> &inputs);
+
+    QObject *slotModel() const;
+    void setSlotModel(QObject *slotModel);
+
 public slots:
 
     void update();
@@ -79,6 +89,7 @@ signals:
 
     void typeChanged();
     void targetChanged();
+    void slotModelChanged();
 
 protected:
 
@@ -86,8 +97,8 @@ protected:
 
     NodeType::All m_type = NodeType::All::BASIC;
     QObject* m_target = nullptr;
-    QAbstractListModel* m_slotModel = nullptr;
-    QList<QVariant> m_inputs;
+    QObject* m_slotModel = nullptr;
+    //ObjectList m_inputs; list(nullptr, {"foo"}, "foo");
 };
 
 #endif // NODEBACKEND_H

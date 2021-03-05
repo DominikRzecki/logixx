@@ -1,7 +1,21 @@
 #ifndef CONTAINERMODEL_H
 #define CONTAINERMODEL_H
 
-#include <QAbstractListModel>
+#include <qqml.h>
+#include <QOlm/QOlm.hpp>
+
+
+/*class ContainerListModel : public qolm::QOlm<QObject*>
+{
+    Q_OBJECT
+    QML_ELEMENT
+public:
+    ContainerListModel( QObject* parent = nullptr, const QList<QByteArray> & exposedRoles = {}, const QByteArray & displayRole = {} )
+    :qolm::QOlm<QObject*>{ parent, exposedRoles, displayRole }
+    {}
+};*/
+
+#endif // CONTAINERMODEL_H
 
 /*template < typename U = QVariant, typename V = QList<U> >
 class ContainerListModel : public QAbstractListModel
@@ -105,4 +119,3 @@ private:
 
 };
 */
-#endif // CONTAINERMODEL_H

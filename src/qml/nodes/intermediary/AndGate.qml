@@ -9,6 +9,7 @@ BasicGate {
     backend: AndBackend {
         type: NodeType.AND
         target: basicgate.connectionPath
+        slotModel: basicgate.slotModel
     }
 
     //backend.type: NodeType.AND

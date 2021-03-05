@@ -29,6 +29,9 @@ Item {
 
             Action {
                 text: qsTr("&Quit")
+                onTriggered: {
+                    appWindow.close();
+                }
             }
         }
 

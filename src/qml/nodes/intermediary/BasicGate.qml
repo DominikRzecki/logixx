@@ -12,6 +12,7 @@ BasicNode {
     id: basicNode
 
     property alias connectionPath: connectionPath
+    property alias slotModel: slotModel
 
     //BasicGate has one Output (target), a connectionPath
     backend.target: connectionPath
@@ -23,13 +24,18 @@ BasicNode {
         anchors.right: parent.right
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        //keys: ["text/plain"]
+
+        //Keys are "disabled" when basicNode disabled
+        keys: basicNode.Drag.keys
+
         onEntered: (drag) => {
                        // <=1=>
                        //Creates a slot when drag entered.
                        console.debug(basicNode + " : " + "onEntered");
                        if( drag.source.parent.parent !== this.parent ) {
-                           slotModel.append({"ind" : slotView.count, "perm" : false});
+                            //slotModel.append(new NodeInput());
+                            slotModel.append({"ind" : slotView.count, "perm" : false}); //if ´
+
                        }
                    }
 
@@ -46,7 +52,17 @@ BasicNode {
     ListModel {
         id: slotModel
         dynamicRoles: true
+
+        function getState(index) {
+            console.debug(index);
+            return slotView.itemAtIndex(slotView.count-slotView.count+index).children[0];
+        }
     }
+
+    /*NodeInputList {
+        id: slotModel
+        //dynamicRoles: true
+    }*/
 
     ListView {
         id: slotView
@@ -64,7 +80,7 @@ BasicNode {
         spacing: slotView.height/(slotView.count+1)
         transformOrigin: Item.Center
 
-        model: slotModel
+        model: slotModel//basicNode.backend.//slotModel
         delegate: Item {
             id: slotDelegate
             width: 20
@@ -81,8 +97,7 @@ BasicNode {
                 width: 10
                 height: 10
                 radius: 3
-                color: "green"
-
+                highlightColor: "green"
             }
 
             DropArea {
@@ -93,19 +108,15 @@ BasicNode {
                 width: slotDelegate.width
                 height: 20
 
+                //Keys are "disabled" when basicNode disabled
+                keys: basicNode.Drag.keys
+
                 onEntered: (drag) => {
                     console.debug(basicNode + " : " + slotDropArea + " : " + "onEntered");
                 }
 
                 onExited: {
                     console.debug(basicNode + " : " + slotDropArea + " : " + "onExited");
-                    //if (slot.source )
-                    if (slotDropArea.drag.source.parent.target === slot) {
-                        slot.currentState = SlotState.UNDEFINED;
-                        slotDropArea.drag.source.parent.target = null;
-                        slot.source = null;
-                    }
-
                 }
 
                 onDropped: {
@@ -116,8 +127,8 @@ BasicNode {
                         //setting the source of the slot to the connectionPath that has been dropped
                         slot.source = slotDropArea.drag.source;
 
-                        //setting the target of the drop source to slot
-                        slot.source.parent.target = slot
+                        //setting the targetSlot of the drop source to slot
+                        slot.source.parent.targetSlot = slot
 
                         //setting slot state to connectionState of the source connectionPath
                         slot.currentState = slot.source.parent.connectionState;
