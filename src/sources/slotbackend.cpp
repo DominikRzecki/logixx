@@ -30,3 +30,13 @@ void SlotBackend::setSource(QObject * src)
         emit sourceChanged();
     }
 }
+
+SlotType::Type SlotBackend::type() const
+{
+    return m_type;
+}
+
+void SlotBackend::setType(const SlotType::Type &type)
+{
+    m_type = type;
+}

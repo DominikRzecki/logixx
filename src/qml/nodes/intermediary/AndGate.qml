@@ -8,8 +8,9 @@ BasicGate {
     id: basicgate
     backend: AndBackend {
         type: NodeType.AND
-        target: basicgate.connectionPath
-        slotModel: basicgate.slotModel
+        target: basicgate.outputSlot
+        slotModel: basicgate.slotList.model
+        name: "AND"
     }
 
     //backend.type: NodeType.AND

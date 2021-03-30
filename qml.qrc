@@ -7,10 +7,14 @@
         <file>src/qml/main.qml</file>
         <file>src/qml/nodes/intermediary/AndGate.qml</file>
         <file>src/qml/nodes/intermediary/BasicGate.qml</file>
-        <file>src/qml/nodes/nodeio/NumInput.qml</file>
         <file>src/qml/ui/MenuBarPane.qml</file>
         <file>src/qml/ui/CreatePane.qml</file>
         <file>src/qml/nodes/input/BasicInput.qml</file>
         <file>src/qml/nodes/input/SwitchInput.qml</file>
+        <file>src/qml/nodes/nodeio/SlotList.qml</file>
+        <file>src/qml/ui/elements/NodeList.qml</file>
+        <file>src/qml/nodes/output/BasicOutput.qml</file>
+        <file>src/qml/nodes/nodeio/DragRectangle.qml</file>
+        <file>src/qml/nodes/nodeio/ConnectionPathList.qml</file>
     </qresource>
 </RCC>

@@ -12,10 +12,13 @@ import "ui"
 ApplicationWindow {
     id: appWindow
     visible: true
-    width: Screen.desktopAvailableWidth/2
+    width: (Qt.platform.os === "android" || Qt.platform.os === "ios") ? Screen.desktopAvailableWidth : Screen.desktopAvailableWidth/2
     height: Screen.desktopAvailableHeight
 
-    //Material.theme: Material.
+    //Screen.orientationUpdateMask:  Qt.LandscapeOrientation | Qt.PortraitOrientation
+    //Screen.orientationUpdateMask: (Qt.platform.os === "android" || Qt.platform.os === "ios") ? Qt.LandscapeOrientation : Qt.LandscapeOrientation | Qt.PortraitOrientation;
+
+    //Material.theme: Material.Amber
     Material.accent: Material.Red
 
     property string display

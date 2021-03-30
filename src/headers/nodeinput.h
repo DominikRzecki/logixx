@@ -1,4 +1,4 @@
-#ifndef SLOT_H
+ifndef SLOT_H
 #define SLOT_H
 
 #include <QQuickItem>

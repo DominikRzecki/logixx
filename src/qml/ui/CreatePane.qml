@@ -5,11 +5,14 @@ import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.15
 import QtQml.Models 2.3
 
+import com.rzecki.logix 1.0
+
 import "../nodes"
 import "../nodes/intermediary"
+import "elements"
 
 Pane {
-    id: toolpane
+    id: createpane
 
     contentWidth: rowLayout.implicitWidth
     contentHeight: rowLayout.implicitHeight
@@ -20,9 +23,16 @@ Pane {
         id: columnLayout
         anchors.fill: parent
 
+        Text {
+            id: paneTitle
+            text: qsTr("Add")
+            font.pointSize: 15
+        }
+
         RowLayout {
             id: rowLayout
             Layout.alignment: Qt.AlignTop
+
 
             StackLayout {
                 id: stackLayout
@@ -32,58 +42,53 @@ Pane {
 
                 Layout.alignment: Qt.AlignLeft
 
-                ScrollView {
-                    id: scrollView
-                    Layout.margins: 5
-                    contentWidth: -1
+                clip: true
+
+                NodeList {
+                    id: inputList
+                    Layout.fillHeight: true
+                    Layout.fillWidth: true
+                    Layout.minimumWidth: 110
+
+                    model: ListModel {
+                        ListElement {
+                            src: "qrc:/src/qml/nodes/input/SwitchInput.qml"
+                            name: "switch"
+                        }
+                    }
+                }
+
+                NodeList {
+                    id: outputList
                     Layout.fillHeight: true
                     Layout.fillWidth: true
                     Layout.minimumWidth: 100
-                    ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-                    ScrollBar.horizontal.interactive: false
 
-                    //This ListView holds the different types of Nodes
-                    ListView {
-                        id: nodeListView
-                        anchors.fill: parent
-
-
-                        model: ListModel {
-                            ListElement {
-                                src: "../nodes/input/SwitchInput.qml"
-                            }
-                            ListElement {
-                                src: "../nodes/intermediary/AndGate.qml"
-                            }
-                        }
-
-                        //Item delegate is responsible for creating nodes
-                        delegate: Item {
-                            property Component comp: null       //Holds the nodes component
-                            property bool first: true           //true if first time created
-
-                            height: 100
-                            //x: nodeListView./2
-
-                            onChildrenChanged: {
-                                if(comp.status === Component.Ready)
-                                    comp.createObject(this, {state: "disabled", x: this.x});
-                            }
-
-                            Component.onCompleted: {
-                                if(comp === null) {
-                                    comp = Qt.createComponent(src);
-                                }
-                                if( first && comp.status === Component.Ready) {
-                                    comp.createObject(this, {state: "disabled", x: this.width});
-                                }
-                                first = false;
-                            }
+                    model: ListModel {
+                        ListElement {
+                            src: "qrc:/src/qml/nodes/output/BasicOutput.qml"
+                            name: "output"
                         }
                     }
+                }
+                NodeList {
+                    id: gateList
+                    Layout.fillHeight: true
+                    Layout.fillWidth: true
+                    Layout.minimumWidth: 100
 
+                    model: ListModel {
+                        ListElement {
+                            src: "qrc:/src/qml/nodes/intermediary/AndGate.qml"
+                            name: "AND"
+                        }
+                    }
                 }
             }
+
+
+
+            // Vertical Tabbar with buttons
             ListView {
                 id: tabbar
 
@@ -92,8 +97,10 @@ Pane {
                 Layout.alignment: Qt.AlignRight
                 Layout.fillHeight: true
 
-                interactive: false
+                interactive: true
                 clip: true
+
+                z: -1
 
                 property int currentIndex: 0
 
@@ -108,22 +115,25 @@ Pane {
                             index: 1
                         }
                         ListElement {
-                            name: "basic"
+                            name: "gate"
                             index: 2
                         }
                         ListElement {
                             name: "flipflop"
-                            index: 2
+                            index: 3
                         }
                     }
 
                 delegate: Button {
                     height: parent.width - 10
                     width: parent.width
+
                     text: qsTr(name)
                     font.pointSize: 8
+
                     checkable: true
-                    checked: false
+                    checked: (index == tabbar.currentIndex)? true : false
+
                     onClicked: tabbar.currentIndex = index
 
                     ButtonGroup.group: exclusiveGroup
@@ -134,8 +144,13 @@ Pane {
             }
         }
     }
+    // Disables dropping nodes on the CreatePane
     DropArea {
+        id: dropArea
         anchors.fill: parent
         keys: ["disabled"]
+        onEntered: (drag) => {
+            drag.source.parent = createpane;
+        }
     }
 }

@@ -14,6 +14,8 @@ BasicInput {
     height: 40
     width: 20
 
+    backend.name: qsTr("switch")
+
     taphandler.onTapped: {
         if( output.connectionState === SlotState.LOW ) {
             output.connectionState = SlotState.HIGH;

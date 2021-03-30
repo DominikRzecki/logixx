@@ -4,6 +4,7 @@ import QtQuick.Controls 2.15
 import QtQuick.Controls.Material 2.15
 import QtQuick.Layouts 1.4
 import com.rzecki.logix 1.0
+
 import "nodeio"
 
 Item {
@@ -47,7 +48,7 @@ Item {
 
     Rectangle {
         id: rectangle
-        anchors.fill: parent 
+        anchors.fill: basicnode
         onColorChanged: {
             update();
         }
@@ -97,13 +98,15 @@ Item {
         id: draghandler
         target: parent
 
+
+
         onActiveChanged: {
-            if(active){
-                forceActiveFocus()
+            if( active ) {
+                forceActiveFocus();
             } else {
                 //handles first drop event makes the main flickable the parent
                 if( basicnode.state === "disabled"){
-                    if ( basicnode.Drag.target.parent instanceof Flickable && target !== null){
+                    if ( basicnode.Drag.target !== null && basicnode.Drag.target.parent instanceof Flickable ){
                         console.debug( "node "+ basicnode + " added to: " + basicnode.Drag.target.parent )
                         var coords = basicnode.mapToItem(basicnode.Drag.target.parent.contentItem, 0, 0);
                         basicnode.parent = basicnode.Drag.target.parent.contentItem

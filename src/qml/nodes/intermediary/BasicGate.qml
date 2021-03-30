@@ -11,158 +11,79 @@ import "../nodeio/"
 BasicNode {
     id: basicNode
 
-    property alias connectionPath: connectionPath
-    property alias slotModel: slotModel
+    width: 100
+    height: 100
+
+    property alias outputSlot: outputSlot
+    property alias slotList: slotView //alias to the slotView
 
     //BasicGate has one Output (target), a connectionPath
-    backend.target: connectionPath
+    backend.target: outputSlot
 
-    DropArea {
-        id: dropArea
-        width: basicNode.width-10
-        z: basicNode.z + 0.25
-        anchors.right: parent.right
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
+    FocusScope {
+        anchors.fill: parent
+        anchors.margins: 5
+            Row {
+                TextInput {
+                    width: basicNode.width/2
+                    text: basicNode.backend.name
+                    enabled: basicNode.enabled
+                }
+            }
+        }
 
-        //Keys are "disabled" when basicNode disabled
-        keys: basicNode.Drag.keys
+        DropArea {
+            id: dropArea
+            width: basicNode.width-10
+            z: basicNode.z + 0.25
+            anchors.fill: parent
+            anchors.leftMargin: 10
+            anchors.rightMargin: 10
 
-        onEntered: (drag) => {
-                       // <=1=>
-                       //Creates a slot when drag entered.
-                       console.debug(basicNode + " : " + "onEntered");
-                       if( drag.source.parent.parent !== this.parent ) {
-                            //slotModel.append(new NodeInput());
-                            slotModel.append({"ind" : slotView.count, "perm" : false}); //if ´
+            //Keys are "disabled" when basicNode disabled
+            keys: basicNode.Drag.keys
 
+            onEntered: (drag) => {
+                           // <=1=>
+                           //Creates a slot when drag entered.
+                           console.debug(basicNode + " : " + "onEntered");
+                           if( drag.source.otherRect.targetNode !== basicNode && drag.source.parent instanceof ConnectionPath) {
+                               //slotModel.append(new NodeInput());
+                               slotView.model.append({"ind" : slotView.model.count-1});
+                               //slotView.model.get(slotView.model.count-1).children[0].index = slotView.model.count - 1;
+                           }
                        }
-                   }
 
-        onExited: (drag) => {
-                      // <=2 or 4=>
-                      //Removes a slot when drag exited without dropping.
-                      console.debug(basicNode + " : " + "onExited");
-                      if( dropArea.drag.source.parent.parent !== this.parent && slotView.itemAtIndex(slotView.count-1).permanent === false) {
-                          slotModel.remove(slotModel.count-1);
+            onExited: (drag) => {
+                          // <=2 or 4=>
+                          //Removes a slot when drag exited without dropping.
+                          console.debug(basicNode + " : " + "onExited");
+                          if( dropArea.drag.source.targetNode !== basicNode && slotView.list.itemAtIndex(slotView.count-1).permanent === false) {
+                              slotView.model.remove(slotView.count-1);
+                          }
                       }
-                  }
-    }
+        }
 
-    ListModel {
-        id: slotModel
-        dynamicRoles: true
+        //Manages dynamic slots
+        SlotList {
+            id: slotView
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+        }
 
-        function getState(index) {
-            console.debug(index);
-            return slotView.itemAtIndex(slotView.count-slotView.count+index).children[0];
+        Slot {
+            id: outputSlot
+            posX: basicNode.width
+            posY: basicNode.height/2
+            parentNode: basicNode
+            type: SlotType.OUTPUT
+            color: "black"
+            highlightColor: color
         }
     }
 
-    /*NodeInputList {
-        id: slotModel
-        //dynamicRoles: true
-    }*/
-
-    ListView {
-        id: slotView
-        x: -10
-        width: 20
-        anchors.left: parent.left
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        interactive: false
-        anchors.bottomMargin: 0
-        anchors.topMargin: 0
-        anchors.leftMargin: 0
-        orientation: Qt.Vertical
-        //verticalLayoutDirection: slotView.BottomToTop
-        spacing: slotView.height/(slotView.count+1)
-        transformOrigin: Item.Center
-
-        model: slotModel//basicNode.backend.//slotModel
-        delegate: Item {
-            id: slotDelegate
-            width: 20
-            x: -10
-
-            property int index: ind
-            property bool permanent: perm
-
-            Slot {
-                id: slot
-                y: slotView.height/(slotView.count+1)/2
-                x: 5
-                z: basicNode.z + 0.5 //(source === null) ? basicNode.z + 0.5 : source.parent.z + 0.3
-                width: 10
-                height: 10
-                radius: 3
-                highlightColor: "green"
-            }
-
-            DropArea {
-                id: slotDropArea
-                enabled: true
-                y: slotView.height/(slotView.count+1)-5
-                x: slotDelegate.x+10
-                width: slotDelegate.width
-                height: 20
-
-                //Keys are "disabled" when basicNode disabled
-                keys: basicNode.Drag.keys
-
-                onEntered: (drag) => {
-                    console.debug(basicNode + " : " + slotDropArea + " : " + "onEntered");
-                }
-
-                onExited: {
-                    console.debug(basicNode + " : " + slotDropArea + " : " + "onExited");
-                }
-
-                onDropped: {
-                    // <=3=>
-                    console.debug(basicNode + " : " + slotDropArea + " : " + "onDropped");
-                    if(slotDropArea.drag.source.parent.parent !== basicNode) {
-                        //Droped on another node
-                        //setting the source of the slot to the connectionPath that has been dropped
-                        slot.source = slotDropArea.drag.source;
-
-                        //setting the targetSlot of the drop source to slot
-                        slot.source.parent.targetSlot = slot
-
-                        //setting slot state to connectionState of the source connectionPath
-                        slot.currentState = slot.source.parent.connectionState;
-
-                        //binding visual properties
-                        slot.source.x = Qt.binding( function() {
-                            return basicNode.x - slot.source.parent.parent.x - slot.source.width/2 - slot.source.parent.parent.width;
-                        } )
-                        slot.source.y = Qt.binding( function() {
-                            return basicNode.y - slot.source.parent.parent.y - slot.source.height/2 - slot.source.parent.parent.height/2 + slotView.height/(slotView.count+1)*(slotDelegate.index+1);
-                        } )
-
-                    } else {
-
-                        // reset path if connection impossible
-                        //slotDropArea.drag.source.x = 0//slotDropArea.drag.source.x + slotDropArea.drag.source.width/2;
-                        //slotDropArea.drag.source.y = 0//slotDropArea.drag.source.y + slotDropArea.drag.source.height/2;
-                    }
-                }
-            }
-
-        }
-    }
-
-    ConnectionPath{
-        id: connectionPath
-        x: basicNode.width
-        y: basicNode.height/2
-    }
-
-}
-
-/*##^##
+    /*##^##
 Designer {
-    D{i:0;autoSize:true;formeditorZoom:0.9;height:480;width:640}
+    D{i:0;formeditorZoom:0.9}
 }
 ##^##*/

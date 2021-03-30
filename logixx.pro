@@ -43,17 +43,11 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 ANDROID_ABIS = armeabi-v7a arm64-v8a
 
 HEADERS += \
-	src/headers/containermodel.h \
-	src/headers/iolist.h \
-	src/headers/nodealgorithms.h \
+	#src/headers/iolist.h \
 	src/headers/nodebackend.h \
-	src/headers/nodedroparea.h \
-	src/headers/nodeinput.h \
-	src/headers/nodeinputlist.h \
-	src/headers/nodeprocessor.h \
 	src/headers/nodes/intermediary/andbackend.h \
-	src/headers/objectpointer.h \
 	src/headers/slotbackend.h \
+	src/headers/undobuffer.h \
 	src/submodules/QOlm/include/QOlm/Export.hpp \
 	src/submodules/QOlm/include/QOlm/QOlm.hpp \
 	src/submodules/QOlm/include/QOlm/QOlmBase.hpp \
@@ -81,16 +75,10 @@ HEADERS += \
 	src/submodules/eventpp/include/eventpp/utilities/scopedremover.h
 
 SOURCES += \
-	src/sources/containermodel.cpp \
-	src/sources/iolist.cpp \
+	#src/sources/iolist.cpp \
 	src/sources/main.cpp \
-	src/sources/nodealgorithms.cpp \
 	src/sources/nodebackend.cpp \
-	src/sources/nodedroparea.cpp \
-	src/sources/nodeinput.cpp \
-	src/sources/nodeinputlist.cpp \
-	src/sources/nodeprocessor.cpp \
 	src/sources/nodes/intermediary/andbackend.cpp \
-	src/sources/objectpointer.cpp \
 	src/sources/slotbackend.cpp \
+	src/sources/undobuffer.cpp \
 	src/submodules/QOlm/src/QOlmBase.cpp

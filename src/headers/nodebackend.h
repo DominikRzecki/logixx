@@ -7,7 +7,6 @@
 
 #include "QOlm/QOlm.hpp"
 #include "slotbackend.h"
-#include "nodeinputlist.h"
 
 class NodeType : public QObject{
     Q_OBJECT
@@ -60,9 +59,9 @@ class NodeBackend : public QObject
 {
     Q_OBJECT
         Q_PROPERTY(NodeType::All type READ type WRITE setType NOTIFY typeChanged)
+        Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
         Q_PROPERTY(QObject* target READ target WRITE setTarget NOTIFY targetChanged)
-        Q_PROPERTY(QObject* slotModel READ  slotModel WRITE setSlotModel NOTIFY slotModelChanged)
-        //Q_PROPERTY(ObjectList inputs READ inputs WRITE setInputs)
+        Q_PROPERTY(QObject* slotModel READ slotModel WRITE setSlotModel NOTIFY slotModelChanged)
     QML_ELEMENT
 
 public:
@@ -72,14 +71,15 @@ public:
     NodeType::All type() const;
     void setType(const NodeType::All &type);
 
+    QString name() const;
+    void setName(const QString &name);
+
     QObject* target() const;
     void setTarget(QObject* target);
 
-    //qolm::QOlm<QObject> inputs() const;
-    //void setInputs(const qolm::QOlm<QObject> &inputs);
-
     QObject *slotModel() const;
     void setSlotModel(QObject *slotModel);
+
 
 public slots:
 
@@ -88,6 +88,7 @@ public slots:
 signals:
 
     void typeChanged();
+    void nameChanged();
     void targetChanged();
     void slotModelChanged();
 
@@ -96,6 +97,7 @@ protected:
     virtual void updatederived();
 
     NodeType::All m_type = NodeType::All::BASIC;
+    QString m_name;
     QObject* m_target = nullptr;
     QObject* m_slotModel = nullptr;
     //ObjectList m_inputs; list(nullptr, {"foo"}, "foo");

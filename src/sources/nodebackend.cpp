@@ -22,6 +22,16 @@ void NodeBackend::updatederived()
     m_target->setProperty("connectionState", QVariant::fromValue(SlotState::State::UNDEFINED));
 }
 
+QString NodeBackend::name() const
+{
+    return m_name;
+}
+
+void NodeBackend::setName(const QString &name)
+{
+    m_name = name;
+}
+
 QObject *NodeBackend::slotModel() const
 {
     return m_slotModel;

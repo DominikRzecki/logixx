@@ -17,7 +17,7 @@ void AndBackend::updatederived()
     qDebug() << m_slotModel;
     for( int i = 0; i < m_slotModel->property("count").toInt(); i++ ){
         //Invoking BasicNode.slotModel.getState() (JS functions return QVariant)
-        qDebug() << QMetaObject::invokeMethod(m_slotModel, "getState", Qt::DirectConnection, Q_RETURN_ARG(QVariant, variant), Q_ARG(QVariant, i));
+        qDebug() << QMetaObject::invokeMethod(m_slotModel, "getSlot", Qt::DirectConnection, Q_RETURN_ARG(QVariant, variant), Q_ARG(QVariant, i));
         //Casting QVariant to QObject*
         slot = qvariant_cast<QObject* >(variant);
         //Casting the first child of QObject* slot to SlotBackend* and comparing its property m_state with SlotState::State::LOW
