@@ -17,7 +17,7 @@ Rectangle {
     width: 20
     height: 20
 
-    color: "purple"
+    color: "transparent"
     transformOrigin: Item.Center
 
     property alias enabled: dragHandler.enabled

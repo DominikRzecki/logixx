@@ -5,7 +5,7 @@
 #include <QAbstractListModel>
 #include <QtQml/QQmlComponent>
 
-#include "QOlm/QOlm.hpp"
+//#include "QOlm/QOlm.hpp"
 #include "slotbackend.h"
 
 class NodeType : public QObject{

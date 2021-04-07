@@ -40,7 +40,7 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-ANDROID_ABIS = armeabi-v7a arm64-v8a
+ANDROID_ABIS = armeabi-v7a
 
 HEADERS += \
 	#src/headers/iolist.h \
@@ -48,31 +48,31 @@ HEADERS += \
 	src/headers/nodes/intermediary/andbackend.h \
 	src/headers/slotbackend.h \
 	src/headers/undobuffer.h \
-	src/submodules/QOlm/include/QOlm/Export.hpp \
-	src/submodules/QOlm/include/QOlm/QOlm.hpp \
-	src/submodules/QOlm/include/QOlm/QOlmBase.hpp \
-	src/submodules/eventpp/include/eventpp/callbacklist.h \
-	src/submodules/eventpp/include/eventpp/eventdispatcher.h \
-	src/submodules/eventpp/include/eventpp/eventpolicies.h \
-	src/submodules/eventpp/include/eventpp/eventqueue.h \
-	src/submodules/eventpp/include/eventpp/hetercallbacklist.h \
-	src/submodules/eventpp/include/eventpp/hetereventdispatcher.h \
-	src/submodules/eventpp/include/eventpp/hetereventqueue.h \
-	src/submodules/eventpp/include/eventpp/internal/eventpolicies_i.h \
-	src/submodules/eventpp/include/eventpp/internal/eventqueue_i.h \
-	src/submodules/eventpp/include/eventpp/internal/hetercallbacklist_i.h \
-	src/submodules/eventpp/include/eventpp/internal/typeutil_i.h \
-	src/submodules/eventpp/include/eventpp/mixins/mixinfilter.h \
-	src/submodules/eventpp/include/eventpp/mixins/mixinheterfilter.h \
-	src/submodules/eventpp/include/eventpp/utilities/anyid.h \
-	src/submodules/eventpp/include/eventpp/utilities/argumentadapter.h \
-	src/submodules/eventpp/include/eventpp/utilities/conditionalfunctor.h \
-	src/submodules/eventpp/include/eventpp/utilities/conditionalremover.h \
-	src/submodules/eventpp/include/eventpp/utilities/counterremover.h \
-	src/submodules/eventpp/include/eventpp/utilities/eventmaker.h \
-	src/submodules/eventpp/include/eventpp/utilities/eventutil.h \
-	src/submodules/eventpp/include/eventpp/utilities/orderedqueuelist.h \
-	src/submodules/eventpp/include/eventpp/utilities/scopedremover.h
+#	src/submodules/QOlm/include/QOlm/Export.hpp \
+#	src/submodules/QOlm/include/QOlm/QOlm.hpp \
+#	src/submodules/QOlm/include/QOlm/QOlmBase.hpp \
+#	src/submodules/eventpp/include/eventpp/callbacklist.h \
+#	src/submodules/eventpp/include/eventpp/eventdispatcher.h \
+#	src/submodules/eventpp/include/eventpp/eventpolicies.h \
+#	src/submodules/eventpp/include/eventpp/eventqueue.h \
+#	src/submodules/eventpp/include/eventpp/hetercallbacklist.h \
+#	src/submodules/eventpp/include/eventpp/hetereventdispatcher.h \
+#	src/submodules/eventpp/include/eventpp/hetereventqueue.h \
+#	src/submodules/eventpp/include/eventpp/internal/eventpolicies_i.h \
+#	src/submodules/eventpp/include/eventpp/internal/eventqueue_i.h \
+#	src/submodules/eventpp/include/eventpp/internal/hetercallbacklist_i.h \
+#	src/submodules/eventpp/include/eventpp/internal/typeutil_i.h \
+#	src/submodules/eventpp/include/eventpp/mixins/mixinfilter.h \
+#	src/submodules/eventpp/include/eventpp/mixins/mixinheterfilter.h \
+#	src/submodules/eventpp/include/eventpp/utilities/anyid.h \
+#	src/submodules/eventpp/include/eventpp/utilities/argumentadapter.h \
+#	src/submodules/eventpp/include/eventpp/utilities/conditionalfunctor.h \
+#	src/submodules/eventpp/include/eventpp/utilities/conditionalremover.h \
+#	src/submodules/eventpp/include/eventpp/utilities/counterremover.h \
+#	src/submodules/eventpp/include/eventpp/utilities/eventmaker.h \
+#	src/submodules/eventpp/include/eventpp/utilities/eventutil.h \
+#	src/submodules/eventpp/include/eventpp/utilities/orderedqueuelist.h \
+#	src/submodules/eventpp/include/eventpp/utilities/scopedremover.h
 
 SOURCES += \
 	#src/sources/iolist.cpp \
@@ -81,4 +81,4 @@ SOURCES += \
 	src/sources/nodes/intermediary/andbackend.cpp \
 	src/sources/slotbackend.cpp \
 	src/sources/undobuffer.cpp \
-	src/submodules/QOlm/src/QOlmBase.cpp
+#	src/submodules/QOlm/src/QOlmBase.cpp

@@ -29,6 +29,9 @@ class OperationParam : public QObject {
 public:
 
     explicit OperationParam( QObject *parent = nullptr );
+    explicit OperationParam( const OperationParam& opp );
+
+    void operator=(const OperationParam& opp );
 
     QString prop() const;
     void setProp(const QString &prop);
@@ -47,8 +50,10 @@ class Operation : public QObject {
 public:
 
     explicit Operation( QObject *parent = nullptr );
-    explicit Operation( const Operation &op );
+    explicit Operation( const Operation& op );
     explicit Operation( OperationType::Type *type, QObject *parent = nullptr );
+
+    void operator=(const Operation& op);
 
 public slots:
     void pushParam(OperationParam *param);
