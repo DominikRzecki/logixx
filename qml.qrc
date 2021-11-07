@@ -16,5 +16,14 @@
         <file>src/qml/nodes/output/BasicOutput.qml</file>
         <file>src/qml/nodes/nodeio/DragRectangle.qml</file>
         <file>src/qml/nodes/nodeio/ConnectionPathList.qml</file>
+        <file>src/qml/backend/NodeCreator.qml</file>
+        <file>src/qml/nodes/intermediary/OrGate.qml</file>
+        <file>src/qml/nodes/intermediary/NotGate.qml</file>
+        <file>src/qml/nodes/intermediary/NandGate.qml</file>
+        <file>src/qml/nodes/intermediary/NorGate.qml</file>
+        <file>logo.svg</file>
+        <file>logo.png</file>
+        <file>LICENSE</file>
+        <file>src/qml/ui/EditPane.qml</file>
     </qresource>
 </RCC>

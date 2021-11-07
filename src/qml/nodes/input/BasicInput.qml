@@ -32,6 +32,9 @@ BasicNode {
         anchors.topMargin: basicNode.height + 5
         anchors.horizontalCenter: parent.horizontalCenter
         enabled: basicNode.enabled
+        Component.onCompleted: {
+            basicNode.backend.name = Qt.binding(function() { return text; })
+        }
     }
 
     Slot{
@@ -42,6 +45,12 @@ BasicNode {
         highlightColor: color
         parentNode: basicNode
         type: SlotType.OUTPUT
+    }
+    
+    onReadyChanged: {
+        if ( ready ) {
+            outputSlot.connectionList.create();
+        }
     }
 
 }

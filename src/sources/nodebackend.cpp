@@ -15,6 +15,43 @@ void NodeBackend::update()
     updatederived();
 }
 
+QObject *NodeBackend::createNode( QObject* parent, NodeType::All type, int x = 0, int y = 0)
+{
+    QQmlEngine *engine = qmlEngine(parent->parent()->parent());
+    QQmlComponent comp( engine );
+    QObject* obj;
+    switch ( type ) {
+    case NodeType::All::BASIC:
+        comp.loadUrl(QUrl(QStringLiteral("qrc:/src/qml/nodes/BasicNode.qml")), QQmlComponent::PreferSynchronous );
+        break;
+    case NodeType::All::AND:
+        comp.loadUrl(QUrl(QStringLiteral("qrc:/src/qml/nodes/intermediary/AndGate.qml")), QQmlComponent::PreferSynchronous );
+        break;
+    case NodeType::All::SWITCH:
+        comp.loadUrl(QUrl(QStringLiteral("qrc:/src/qml/nodes/input/SwitchInput.qml")), QQmlComponent::PreferSynchronous );
+        break;
+    case NodeType::All::LAMP:
+        comp.loadUrl(QUrl(QStringLiteral("qrc:/src/qml/nodes/output/BasicOutput.qml")),  QQmlComponent::PreferSynchronous );
+        break;
+    default:
+        return nullptr;
+        break;
+    }
+    if( comp.isReady() ) {
+        obj = comp.create(qmlContext(parent));
+        obj->setParent(parent);
+        obj->setProperty("state", "disabled");
+        obj->setProperty("x", x);
+        obj->setProperty("y", y);
+        return obj;
+    } else {
+        qDebug() << comp.errorString();
+    }
+    return nullptr;
+}
+
+
+
 void NodeBackend::updatederived()
 {
     //Setting target connectionState to undefined if Basic Nodebackend is used.

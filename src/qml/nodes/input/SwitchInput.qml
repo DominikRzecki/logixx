@@ -15,6 +15,7 @@ BasicInput {
     width: 20
 
     backend.name: qsTr("switch")
+    backend.type: NodeType.SWITCH
 
     taphandler.onTapped: {
         if( output.connectionState === SlotState.LOW ) {

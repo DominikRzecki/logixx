@@ -3,12 +3,18 @@
 #include <QSGRendererInterface>
 #include <QQuickWindow>
 #include <QQuickStyle>
+#include <QtCore>
+#include <QIconEngine>
 
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     //QQuickWindow::setSceneGraphBackend(QSGRendererInterface::OpenGLRhi);
     QGuiApplication app(argc, argv);
+
+    app.setApplicationDisplayName("logixx");
+    app.setApplicationVersion("0.81 beta");
+    app.setWindowIcon(QIcon("qrc:/logo.png"));
 
     /*qmlRegisterType<NodeType>("com.rzecki.logix", 1, 0, "NodeType");
     qmlRegisterType<NodeBackend>("com.rzecki.logix", 1, 0, "NodeBackend");

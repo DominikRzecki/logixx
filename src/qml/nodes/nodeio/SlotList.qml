@@ -14,6 +14,8 @@ Item {
     property alias list: slotView           //Alias to ListView
     property alias model: slotModel         //Alias to ListModel
     property alias count: slotView.count    //Alias to ListView.count
+    property int maxSlots: -1
+    property int minSlots: 2
 
     //ListModel Holding all Slots
     ListModel {

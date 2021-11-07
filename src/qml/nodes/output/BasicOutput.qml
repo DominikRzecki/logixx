@@ -11,9 +11,10 @@ BasicNode {
     height: 30
 
     backend.name: qsTr("output")
+    backend.type: NodeType.LAMP
 
     Slot {
-        id: outputSlot
+        id: inputSlot
 
         posX: 0
         posY: basicNode.height/2
@@ -45,6 +46,15 @@ BasicNode {
         anchors.topMargin: basicNode.height + 5
         anchors.horizontalCenter: parent.horizontalCenter
         enabled: basicNode.enabled
+        Component.onCompleted: {
+            basicNode.backend.name = Qt.binding(function() { return text; })
+        }
+    }
+
+    onReadyChanged: {
+        if ( ready ) {
+            inputSlot.connectionList.create();
+        }
     }
 }
 

@@ -28,6 +28,9 @@ BasicNode {
                     width: basicNode.width/2
                     text: basicNode.backend.name
                     enabled: basicNode.enabled
+                    Component.onCompleted: {
+                        basicNode.backend.name = Qt.binding(function() { return text; })
+                    }
                 }
             }
         }
@@ -40,6 +43,7 @@ BasicNode {
             anchors.leftMargin: 10
             anchors.rightMargin: 10
 
+            //enabled: (slotList.list.count < slotList.maxSlots || slotList.maxSlots == -1 ) ? true : false
             //Keys are "disabled" when basicNode disabled
             keys: basicNode.Drag.keys
 
@@ -47,7 +51,7 @@ BasicNode {
                            // <=1=>
                            //Creates a slot when drag entered.
                            console.debug(basicNode + " : " + "onEntered");
-                           if( drag.source.otherRect.targetNode !== basicNode && drag.source.parent instanceof ConnectionPath) {
+                           if( drag.source.otherRect.targetNode !== basicNode && drag.source.parent instanceof ConnectionPath && ( slotList.list.count < slotList.maxSlots || slotList.maxSlots == -1 ) ) {
                                //slotModel.append(new NodeInput());
                                slotView.model.append({"ind" : slotView.model.count-1});
                                //slotView.model.get(slotView.model.count-1).children[0].index = slotView.model.count - 1;
@@ -79,6 +83,12 @@ BasicNode {
             type: SlotType.OUTPUT
             color: "black"
             highlightColor: color
+        }
+
+        onReadyChanged: {
+            if ( ready ) {
+                basicNode.outputSlot.connectionList.create();
+            }
         }
     }
 

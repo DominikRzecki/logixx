@@ -14,8 +14,10 @@ import "./"
 */
 Rectangle {
     id: targetRect
-    width: 20
-    height: 20
+    width: 25
+    height: 25
+
+    //scale: 0.5
 
     color: "transparent"
     transformOrigin: Item.Center

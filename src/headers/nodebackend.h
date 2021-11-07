@@ -5,7 +5,7 @@
 #include <QAbstractListModel>
 #include <QtQml/QQmlComponent>
 
-//#include "QOlm/QOlm.hpp"
+#include "QQmlEngine"
 #include "slotbackend.h"
 
 class NodeType : public QObject{
@@ -19,7 +19,8 @@ public:
     };
 
     enum class Gate{
-        AND = 10,
+        NOT = 10,
+        AND,
         OR,
         NAND,
         NOR,
@@ -34,7 +35,8 @@ public:
     enum class All {
         BASIC = -1,
         SWITCH = 0,
-        AND = 10,
+        NOT = 10,
+        AND,
         OR,
         NAND,
         NOR,
@@ -84,6 +86,7 @@ public:
 public slots:
 
     void update();
+    static QObject* createNode( QObject* parent, NodeType::All type, int x, int y);
 
 signals:
 

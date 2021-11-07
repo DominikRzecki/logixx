@@ -20,6 +20,10 @@ Item {
     property var keys: []
     property NodeBackend backend
 
+    property bool ready: false
+
+    //scale: (parent.parent instanceof Flickable ) ? 0.5 : 1
+
     backend: NodeBackend {
         type: NodeType.BASIC
     }
@@ -94,27 +98,49 @@ Item {
 
     Drag.dragType: Drag.Automatic
 
+
+    onXChanged: {
+        //console.debug(basicnode.x + " - " + basicnode.y)
+    }
+
     DragHandler {
         id: draghandler
         target: parent
-
-
-
         onActiveChanged: {
             if( active ) {
                 forceActiveFocus();
             } else {
+                if ( basicnode.state === "disabled"){
                 //handles first drop event makes the main flickable the parent
-                if( basicnode.state === "disabled"){
-                    if ( basicnode.Drag.target !== null && basicnode.Drag.target.parent instanceof Flickable ){
-                        console.debug( "node "+ basicnode + " added to: " + basicnode.Drag.target.parent )
-                        var coords = basicnode.mapToItem(basicnode.Drag.target.parent.contentItem, 0, 0);
-                        basicnode.parent = basicnode.Drag.target.parent.contentItem
+                    if ( basicnode.Drag.target !== null && basicnode.Drag.target.parent.parent instanceof Flickable ){
+                        console.debug( "node "+ basicnode + " added to: " + basicnode.Drag.target.parent.parent )
+                        var coords = basicnode.mapToItem(basicnode.Drag.target.parent.parent.contentItem, 0, 0);
+                        //var coords = Qt.vector2d()
+                        basicnode.parent = basicnode.Drag.target.parent.parent.contentItem
                         //Setting the proper coords of basicnode
                         basicnode.x = coords.x
                         basicnode.y = coords.y
                         basicnode.state = "enabled";
-                    } else {
+                        basicnode.enabled = true;
+                        basicnode.ready = true;
+                        var op = Qt.createQmlObject("import com.rzecki.logix 1.0; Operation{}", basicnode);
+                        var ptr = Qt.createQmlObject("import com.rzecki.logix 1.0; OperationParam{}", op)
+                        var type = Qt.createQmlObject("import com.rzecki.logix 1.0; OperationParam{}", op)
+                        var x = Qt.createQmlObject("import com.rzecki.logix 1.0; OperationParam{}", op)
+                        var y = Qt.createQmlObject("import com.rzecki.logix 1.0; OperationParam{}", op)
+                        op.type = OperationType.CREATE;
+                        ptr.prop = "object";
+                        ptr.val = basicnode;
+                        type.prop = "backend.type"
+                        type.val = backend.type
+                        x.val = basicnode.x
+                        y.val = basicnode.y
+                        op.pushParam(ptr);
+                        op.pushParam(type);
+                        op.pushParam(x);
+                        op.pushParam(y);
+                        UndoBuffer.push(op);
+                    } else if (!( basicnode.Drag.target.parent.parent instanceof Flickable) && basicnode.state !== "enabled"){
                         basicnode.destroy();
                     }
                 }

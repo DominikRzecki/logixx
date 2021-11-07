@@ -9,6 +9,7 @@ ScrollView {
     ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
     ScrollBar.horizontal.interactive: false
 
+    property int nodeheight: 100
     property alias model: nodeListView.model
 
     //This ListView holds the different types of Nodes
@@ -21,7 +22,7 @@ ScrollView {
             property Component comp: null       //Holds the nodes component
 
 
-            height: 100
+            height: scrollView.nodeheight
             x: 5
 
             //x: nodeListView./2

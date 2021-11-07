@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Controls.Material 2.15
 import QtQuick.Controls.Styles 1.4
@@ -62,7 +62,7 @@ Pane {
                     id: outputList
                     Layout.fillHeight: true
                     Layout.fillWidth: true
-                    Layout.minimumWidth: 100
+                    Layout.minimumWidth: 110
 
                     model: ListModel {
                         ListElement {
@@ -75,12 +75,29 @@ Pane {
                     id: gateList
                     Layout.fillHeight: true
                     Layout.fillWidth: true
-                    Layout.minimumWidth: 100
+                    Layout.minimumWidth: 110
+                    nodeheight: 110
 
                     model: ListModel {
                         ListElement {
                             src: "qrc:/src/qml/nodes/intermediary/AndGate.qml"
                             name: "AND"
+                        }
+                        ListElement {
+                            src: "qrc:/src/qml/nodes/intermediary/OrGate.qml"
+                            name: "OR"
+                        }
+                        ListElement {
+                            src: "qrc:/src/qml/nodes/intermediary/NotGate.qml"
+                            name: "NOT"
+                        }
+                        ListElement {
+                            src: "qrc:/src/qml/nodes/intermediary/NandGate.qml"
+                            name: "NAND"
+                        }
+                        ListElement {
+                            src: "qrc:/src/qml/nodes/intermediary/NorGate.qml"
+                            name: "NOR"
                         }
                     }
                 }
@@ -150,7 +167,7 @@ Pane {
         anchors.fill: parent
         keys: ["disabled"]
         onEntered: (drag) => {
-            drag.source.parent = createpane;
-        }
+                       drag.source.parent = createpane;
+                   }
     }
 }

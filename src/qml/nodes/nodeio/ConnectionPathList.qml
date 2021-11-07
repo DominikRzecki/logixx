@@ -28,6 +28,11 @@ Item {
 
     Component.onDestruction: {                          //When the App is closed and thus connPathList is destroyed, enabled is set to false.
         enabled = false;
+        for ( var i = 0; i < length; i++ ) {            //Destroying all connected ConnectionPaths when List Destroyed
+            if ( list[i] !== null ) {
+                list[i].parent.destroy();
+            }
+        }
     }
 
     onFlickableChanged: {
@@ -38,7 +43,7 @@ Item {
         }*/
         if ( flickable instanceof Flickable ) {
             if ( enabled ) {
-                create();
+                //create();
             } else {
                 enabled == true;
             }
@@ -88,10 +93,12 @@ Item {
         console.debug(connPathList + ".create()")
         var obj;
 
-        if(comp.status === Component.Ready) { //Creates components
+        if( comp.status === Component.Ready ) { //Creates components
             obj = comp.createObject( (flickable instanceof Flickable)? flickable.contentItem : flickable);
-
             obj.targetA.Drag.start();
+            //console.debug(connPathList.parentSlot.parentNode.parent.parent + "---------------s--")
+            //console.debug(connPathList.parentSlot.parentNode.x + "---------------s--")
+            //console.debug(connPathList.parentSlot.parentNode.y + "---------------s--")
             obj.targetA.x = connPathList.parentSlot.parentNode.x + connPathList.parentSlot.posX - obj.targetA.width/2;
             obj.targetA.y = connPathList.parentSlot.parentNode.y + connPathList.parentSlot.posY + ((connPathList.parentSlot.listView !== null) ? connPathList.parentSlot.parent.y : 0) - obj.targetA.height/2;
             obj.targetA.Drag.drop();

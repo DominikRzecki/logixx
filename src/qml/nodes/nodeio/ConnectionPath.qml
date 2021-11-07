@@ -22,6 +22,7 @@ Shape {
     width: targetA.x-targetB.x
     height: targetA.y-targetB.y
 
+
     //Holds true, if connPath enabled
     property bool enabled: true
 
@@ -80,10 +81,10 @@ Shape {
                 } else {
                     stateA = stateB;
                 }
+            } else {
+                stateA = SlotState.UNDEFINED;
+                stateB = SlotState.UNDEFINED;
             }
-        } else {
-            stateA = SlotState.UNDEFINED;
-            stateB = SlotState.UNDEFINED;
         }
     }
 

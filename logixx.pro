@@ -1,5 +1,6 @@
-QT += quick quickcontrols2 widgets
-CONFIG += c++17 metatypes qmltypes
+TEMPLATE += app
+QT += quick quickcontrols2 widgets svg
+CONFIG += c++17 metatypes qmltypes qtquickcompiler
 QML_IMPORT_NAME = com.rzecki.logix
 QML_IMPORT_MAJOR_VERSION = 1
 
@@ -22,10 +23,12 @@ INCLUDEPATH +=	src/headers \
 		src/headers/nodes/input \
 		src/headers/nodes/intermediary \
 		src/headers/nodes/output \
-		src/submodules/QOlm/include \
-		src/submodules/eventpp/include
 
 RESOURCES += qml.qrc
+
+#ICON = logo.png
+win32: RC_ICONS += logo.png
+macx: ICON = logix.png
 
 TRANSLATIONS += \
     logixx_en_US.ts
@@ -43,42 +46,34 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 ANDROID_ABIS = armeabi-v7a
 
 HEADERS += \
-	#src/headers/iolist.h \
 	src/headers/nodebackend.h \
 	src/headers/nodes/intermediary/andbackend.h \
+	src/headers/nodes/intermediary/nandbackend.h \
+	src/headers/nodes/intermediary/norbackend.h \
+	src/headers/nodes/intermediary/notbackend.h \
+	src/headers/nodes/intermediary/orbackend.h \
 	src/headers/slotbackend.h \
 	src/headers/undobuffer.h \
-#	src/submodules/QOlm/include/QOlm/Export.hpp \
-#	src/submodules/QOlm/include/QOlm/QOlm.hpp \
-#	src/submodules/QOlm/include/QOlm/QOlmBase.hpp \
-#	src/submodules/eventpp/include/eventpp/callbacklist.h \
-#	src/submodules/eventpp/include/eventpp/eventdispatcher.h \
-#	src/submodules/eventpp/include/eventpp/eventpolicies.h \
-#	src/submodules/eventpp/include/eventpp/eventqueue.h \
-#	src/submodules/eventpp/include/eventpp/hetercallbacklist.h \
-#	src/submodules/eventpp/include/eventpp/hetereventdispatcher.h \
-#	src/submodules/eventpp/include/eventpp/hetereventqueue.h \
-#	src/submodules/eventpp/include/eventpp/internal/eventpolicies_i.h \
-#	src/submodules/eventpp/include/eventpp/internal/eventqueue_i.h \
-#	src/submodules/eventpp/include/eventpp/internal/hetercallbacklist_i.h \
-#	src/submodules/eventpp/include/eventpp/internal/typeutil_i.h \
-#	src/submodules/eventpp/include/eventpp/mixins/mixinfilter.h \
-#	src/submodules/eventpp/include/eventpp/mixins/mixinheterfilter.h \
-#	src/submodules/eventpp/include/eventpp/utilities/anyid.h \
-#	src/submodules/eventpp/include/eventpp/utilities/argumentadapter.h \
-#	src/submodules/eventpp/include/eventpp/utilities/conditionalfunctor.h \
-#	src/submodules/eventpp/include/eventpp/utilities/conditionalremover.h \
-#	src/submodules/eventpp/include/eventpp/utilities/counterremover.h \
-#	src/submodules/eventpp/include/eventpp/utilities/eventmaker.h \
-#	src/submodules/eventpp/include/eventpp/utilities/eventutil.h \
-#	src/submodules/eventpp/include/eventpp/utilities/orderedqueuelist.h \
-#	src/submodules/eventpp/include/eventpp/utilities/scopedremover.h
 
 SOURCES += \
-	#src/sources/iolist.cpp \
 	src/sources/main.cpp \
 	src/sources/nodebackend.cpp \
 	src/sources/nodes/intermediary/andbackend.cpp \
+	src/sources/nodes/intermediary/nandbackend.cpp \
+	src/sources/nodes/intermediary/norbackend.cpp \
+	src/sources/nodes/intermediary/notbackend.cpp \
+	src/sources/nodes/intermediary/orbackend.cpp \
 	src/sources/slotbackend.cpp \
 	src/sources/undobuffer.cpp \
-#	src/submodules/QOlm/src/QOlmBase.cpp
+
+DISTFILES += \
+	android/AndroidManifest.xml \
+	android/build.gradle \
+	android/gradle.properties \
+	android/gradle/wrapper/gradle-wrapper.jar \
+	android/gradle/wrapper/gradle-wrapper.properties \
+	android/gradlew \
+	android/gradlew.bat \
+	android/res/values/libs.xml
+
+ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
